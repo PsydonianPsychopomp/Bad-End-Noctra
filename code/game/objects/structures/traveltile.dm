@@ -163,7 +163,6 @@
 	var/atom/movable/pullingg = user.pulling
 	var/list/master_leashed_mobs = get_master_leashed_mobs(user, FALSE)
 	if(pullingg)
-		pullingg_freepet_leash = get_freepet_leash(pullingg)
 		pullingg.recent_travel = world.time
 	user.recent_travel = world.time
 	if(can_gain_with_sight && !HAS_TRAIT(user, TRAIT_RESTRAINED))
