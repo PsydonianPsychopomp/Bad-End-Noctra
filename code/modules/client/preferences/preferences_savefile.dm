@@ -137,6 +137,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	S["menuoptions"]		>> menuoptions
 	S["enable_tips"]		>> enable_tips
 	S["tip_delay"]			>> tip_delay
+	S["grimdark_warning_acknowledged"] >> grimdark_warning_acknowledged
 	S["ui_scale"]			>> ui_scale
 	S["chat_scale"]			>> chat_scale
 	S["multi_char_ready"] >> multi_char_ready
