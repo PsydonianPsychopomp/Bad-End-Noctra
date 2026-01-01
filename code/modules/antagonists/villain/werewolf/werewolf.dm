@@ -32,6 +32,10 @@
 	)
 	var/forced_transform = FALSE
 
+/datum/antagonist/werewolf/can_be_owned(datum/mind/new_owner)
+	// Werewolf role disabled: no player can be assigned this antagonist.
+	return FALSE
+
 /datum/antagonist/werewolf/lesser
 	name = "Lesser Werevolf"
 	antag_hud_type = ANTAG_HUD_WEREWOLF

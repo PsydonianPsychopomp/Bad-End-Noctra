@@ -208,9 +208,9 @@
 		TRAIT_DODGEEXPERT,
 	)
 
-	pack_spells = list(
-		/datum/action/cooldown/spell/undirected/shapeshift/rat_vampire
-	)
+	// pack_spells = list(
+	// 	/datum/action/cooldown/spell/undirected/shapeshift/rat_vampire
+	// )
 
 	pack_contents = list(
 		/obj/item/clothing/cloak/tribal = ITEM_SLOT_CLOAK,
