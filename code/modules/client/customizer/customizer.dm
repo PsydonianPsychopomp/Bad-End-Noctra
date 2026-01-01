@@ -44,6 +44,16 @@
 /datum/customizer/proc/validate_entry(datum/preferences/prefs, datum/customizer_entry/entry)
 	if(entry.disabled && !allows_disabling)
 		entry.disabled = FALSE
+	if(gender_enabled)
+		var/entry_gender
+		if(istype(prefs, /datum/preferences))
+			var/datum/preferences/pref_data = prefs
+			entry_gender = pref_data.gender
+		else if(ismob(prefs))
+			var/mob/mob_data = prefs
+			entry_gender = mob_data.gender
+		if(entry_gender == gender_enabled)
+			entry.disabled = FALSE
 	var/datum/customizer_choice/choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
 	choice.validate_entry(prefs, entry)
 

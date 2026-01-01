@@ -1,9 +1,9 @@
 /datum/job/shophand
-	title = "Shophand"
-	tutorial = "You work under the greedy eyes of the Merchant who has shackled you to the drudgery of employment. \
+	title = "Debtor"
+	tutorial = "You are a debtor bound to the Merchant Guild, a slave in all but name. \
 	Tasked with handling customers, organizing shelves, and taking inventory, your work is mind-numbing and repetitive. \
-	Despite its mundanity however, it keeps a roof over your head and teaches you the art of mercantilism. \
-	With enough time, you will become more than a glorified clerk and open a business that rivals all others."
+	The guild's chains are wrapped in contracts, but they are chains all the same. \
+	If you ever earn your freedom, you will know the trade well enough to rival your former masters."
 	department_flag = COMPANY
 	job_flags = (JOB_ANNOUNCE_ARRIVAL | JOB_SHOW_IN_CREDITS | JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE)
 	faction = "Station"
@@ -44,7 +44,9 @@
 	)
 
 	traits = list(
-		TRAIT_SEEPRICES
+		TRAIT_SEEPRICES,
+		TRAIT_BEAUTIFUL,
+		TRAIT_GOODLOVER
 	)
 
 /datum/job/shophand/after_spawn(mob/living/carbon/human/spawned, client/player_client)
@@ -61,19 +63,9 @@
 			spawned.adjust_stat_modifier(STATMOD_JOB, STATKEY_STR, 1)
 
 /datum/outfit/shophand
-	name = "Shophand Base"
-	head = /obj/item/clothing/head/chaperon
-	pants = /obj/item/clothing/pants/tights
-	shoes = /obj/item/clothing/shoes/simpleshoes
-	belt = /obj/item/storage/belt/leather
-	beltr = /obj/item/storage/belt/pouch/coins/poor
-	beltl = /obj/item/storage/keyring/stevedore
-	backr = /obj/item/storage/backpack/satchel
-	gloves = /obj/item/clothing/gloves/fingerless
+	name = "Debtor Base"
 
-/datum/outfit/shophand/pre_equip(mob/living/carbon/human/equipped_human, visuals_only)
-	. = ..()
-	if(equipped_human.gender == FEMALE)
-		shirt = /obj/item/clothing/shirt/dress/gen/colored/blue
-	else
-		shirt = /obj/item/clothing/shirt/undershirt/colored/blue
+	shirt = /obj/item/clothing/shirt/exoticsilkbra
+	belt = /obj/item/storage/belt/leather/exoticsilkbelt
+	shoes = /obj/item/clothing/shoes/anklets
+	neck = /obj/item/clothing/neck/gorget/slave_gorget/female

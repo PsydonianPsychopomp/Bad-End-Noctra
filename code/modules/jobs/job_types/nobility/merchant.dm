@@ -31,6 +31,7 @@
 	skills = list(
 		/datum/skill/combat/swords = 2,
 		/datum/skill/combat/knives = 1,
+		/datum/skill/combat/firearms = 5,
 		/datum/skill/misc/reading = 5,
 		/datum/skill/misc/sneaking = 2,
 		/datum/skill/misc/stealing = 6,
@@ -47,9 +48,13 @@
 	name = "Merchant"
 	neck = /obj/item/clothing/neck/mercator
 	backr = /obj/item/storage/backpack/satchel
+	backl = /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/musket
 	backpack_contents = list(
 		/obj/item/storage/belt/pouch/coins/veryrich = 1,
-		/obj/item/merctoken = 1
+		/obj/item/merctoken = 1,
+		/obj/item/ammo_holder/bullet = 1,
+		/obj/item/reagent_containers/glass/bottle/aflask = 1,
+		/obj/item/clothing/ring/gold/guild_mercator = 1
 	)
 	shirt = /obj/item/clothing/shirt/tunic/colored/blue
 	shoes = /obj/item/clothing/shoes/gladiator
@@ -59,7 +64,7 @@
 	wrists = /obj/item/storage/keyring/merchant
 	armor = /obj/item/clothing/shirt/robe/merchant
 	head = /obj/item/clothing/head/chaperon/colored/greyscale/silk/random
-	ring = /obj/item/clothing/ring/gold/guild_mercator
+	ring = /obj/item/clothing/ring/slave_control
 	scabbards = list(/obj/item/weapon/scabbard/sword)
 
 /datum/outfit/merchant/pre_equip(mob/living/carbon/human/equipped_human, visuals_only)

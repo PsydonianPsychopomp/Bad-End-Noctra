@@ -9,6 +9,21 @@
 	body_parts_covered = EYES
 //	block2add = FOV_BEHIND
 
+/obj/item/clothing/face/spectacles/equipped(mob/user, slot)
+	..()
+	if(HAS_TRAIT(user, TRAIT_NEARSIGHT))
+		if(slot & ITEM_SLOT_MASK)
+			if(!obj_broken)
+				user.clear_fullscreen("nearsighted")
+			else
+				user.overlay_fullscreen("nearsighted", /atom/movable/screen/fullscreen/impaired, 3) // Vrell - This way, they at least do something, even when broken.
+
+/obj/item/clothing/face/spectacles/dropped(mob/user, slot)
+	..()
+	if(HAS_TRAIT(user, TRAIT_NEARSIGHT))
+		user.overlay_fullscreen("nearsighted", /atom/movable/screen/fullscreen/impaired, 1)
+
+
 /obj/item/clothing/face/spectacles/golden
 	name = "golden spectacles"
 	icon_state = "goggles"

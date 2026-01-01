@@ -123,7 +123,7 @@
 		return FALSE
 	return SEND_SIGNAL(user, COMSIG_SEX_TRY_KNOT, target, session.force)
 
-/datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = FALSE, skipundies = TRUE)
+/datum/sex_action/proc/check_location_accessible(mob/living/carbon/human/user, mob/living/carbon/human/target, location = BODY_ZONE_CHEST, grabs = TRUE, skipundies = TRUE)
 	var/obj/item/bodypart/bodypart = target.get_bodypart(location)
 	var/self_target = FALSE
 	if(target == user)
@@ -142,6 +142,9 @@
 		var/grabstate = user.get_highest_grab_state_on(target)
 		if((grabstate == null || grabstate < src.required_grab_state))
 			return FALSE
+
+	if(self_target)
+		grabs = FALSE
 
 	var/result = get_location_accessible(target, location = location, grabs = grabs, skipundies = skipundies) || target.get_erp_pref(/datum/erp_preference/boolean/clothed_sex)
 	return result

@@ -35,8 +35,28 @@
 
 	/// Validate the variables within customizer entries
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
-		var/datum/customizer_choice/customizer_choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
-		customizer_choice.validate_entry(src, entry)
+		var/datum/customizer/customizer = CUSTOMIZER(entry.customizer_type)
+		customizer.validate_entry(src, entry)
+
+/datum/preferences/proc/update_gendered_customizers()
+	if(!pref_species)
+		return
+	var/list/customizers = pref_species.customizers
+	if(!customizers)
+		return
+	for(var/customizer_type as anything in customizers)
+		var/datum/customizer/customizer = CUSTOMIZER(customizer_type)
+		if(!customizer.gender_enabled)
+			continue
+		var/datum/customizer_entry/entry = get_customizer_entry_for_customizer_type(customizer_type)
+		if(!entry)
+			entry = customizer.make_default_customizer_entry(src, FALSE)
+			customizer_entries += entry
+		if(customizer.allows_disabling)
+			entry.disabled = (gender != customizer.gender_enabled)
+		else if(gender == customizer.gender_enabled)
+			entry.disabled = FALSE
+		customizer.validate_entry(src, entry)
 
 /datum/preferences/proc/print_customizers_page()
 	var/list/dat = list()

@@ -1,35 +1,3 @@
-/datum/status_effect/facial
-	id = "facial"
-	alert_type = null // don't show an alert on screen
-	duration = 12 MINUTES // wear off eventually or until character washes themselves
-
-/datum/stress_event/facial
-	desc = "<span class='warning'>I've been creamed. Tastes like cum.</span>\n"
-	timer = 20 MINUTES
-
-/datum/status_effect/facial/internal
-	id = "creampie"
-	alert_type = null // don't show an alert on screen
-	duration = 7 MINUTES // wear off eventually or until character washes themselves
-
-/datum/status_effect/facial/on_apply()
-	RegisterSignal(owner, list(COMSIG_COMPONENT_CLEAN_ACT, COMSIG_COMPONENT_CLEAN_FACE_ACT),PROC_REF(clean_up))
-	owner.add_stress(/datum/stress_event/facial)
-	return ..()
-
-/datum/status_effect/facial/on_remove()
-	UnregisterSignal(owner, list(COMSIG_COMPONENT_CLEAN_ACT, COMSIG_COMPONENT_CLEAN_FACE_ACT))
-	owner.remove_stress(/datum/stress_event/facial)
-	return ..()
-
-///Callback to remove pearl necklace
-/datum/status_effect/facial/proc/clean_up(datum/source, strength)
-	if(strength == CLEAN_WASH && !QDELETED(owner))
-		if(!owner.has_stress_type(/datum/stress_event/bathcleaned))
-			to_chat(owner, span_notice("I feel much cleaner now!"))
-			owner.add_stress(/datum/stress_event/bathcleaned)
-		owner.remove_status_effect(src)
-
 /datum/status_effect/edged_penis_cooldown
 	id = "tired_penis"
 	alert_type = null

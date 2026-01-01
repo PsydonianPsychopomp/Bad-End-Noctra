@@ -2,6 +2,10 @@
 	var/covered_locations = NONE	//based on body_parts_covered
 	if(iscarbon(victim))
 		var/mob/living/carbon/carbon_victim = victim
+		if(grabs)
+			for(var/obj/item/grabbing/grab in carbon_victim.grabbedby)
+				if(grab.grab_state >= GRAB_AGGRESSIVE && grab.sublimb_grabbed == location)
+					return TRUE
 		for(var/obj/item/equipped_item in carbon_victim.get_equipped_items(include_pockets = FALSE))
 			if(zone2covered(location, equipped_item.body_parts_covered) && equipped_item.surgery_cover)
 				return FALSE
@@ -10,12 +14,6 @@
 			if(!skipundies)
 				if(human_victim.underwear)
 					covered_locations |= GROIN
-			if(grabs)
-				for(var/obj/item/grabbing/grab in human_victim.grabbedby)
-					if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_GROIN)
-						covered_locations |= GROIN
-					if(grab.sublimb_grabbed == BODY_ZONE_PRECISE_MOUTH)
-						covered_locations |= MOUTH
 			if(zone2covered(location, covered_locations))
 				return FALSE
 	return TRUE

@@ -398,6 +398,8 @@
 			return pick(list("brutally", "violently", "relentlessly", "savagely", "mercilessly"))
 
 /datum/sex_session/proc/spanify_force(string)
+	if(target?.cmode)
+		return span_danger(string)
 	switch(force)
 		if(SEX_FORCE_LOW)
 			return "<span class='love_low'>[string]</span>"
@@ -430,6 +432,11 @@
 	var/list/dat = list()
 	var/list/arousal_data = list()
 	SEND_SIGNAL(user, COMSIG_SEX_GET_AROUSAL, arousal_data)
+	var/datum/component/bellyriding/belly_comp = get_bellyriding_component()
+	var/show_bellyriding_tab = (belly_comp != null)
+	var/is_resisting = (target && target.cmode)
+	if(!show_bellyriding_tab && selected_tab == "bellyriding")
+		selected_tab = "interactions"
 
 	// CSS styling to match the dark red/brown color scheme
 	dat += "<style>"
@@ -460,6 +467,9 @@
 	dat += ".action-button:hover { background-color: #5a3525; }"
 	dat += ".action-button.blue { background-color: #3a4a5a; border-color: #5a6a7a; }"
 	dat += ".action-button.blue:hover { background-color: #4a5a6a; }"
+	dat += ".action-button.resist { background-color: #5a1f1f; border-color: #7a2a2a; color: #f2b3b3; }"
+	dat += ".action-button.resist:hover { background-color: #6a2525; }"
+	dat += ".action-button.resist.active { background-color: #7a2a2a !important; border-color: #913333 !important; color: #ffffff !important; box-shadow: 0 0 5px rgba(145, 51, 51, 0.5) !important; }"
 	dat += ".action-button.active { background-color: #8b6914 !important; color: #ffffff !important; border-color: #a07a1a !important; box-shadow: 0 0 5px rgba(139, 105, 20, 0.5) !important; }"
 	dat += ".action-icons { display: flex; margin-left: 5px; }"
 	dat += ".icon-btn { width: 25px; height: 25px; margin-left: 2px; background-color: #4a2c20; border: 1px solid #2a1a15; color: #d4af8c; text-align: center; line-height: 23px; cursor: pointer; font-size: 11px; text-decoration: none; }"
@@ -580,6 +590,8 @@
 
 	dat += "<div class='tabs'>"
 	dat += "<a href='?src=[REF(src)];task=tab;tab=interactions' class='tab [selected_tab == "interactions" ? "active" : ""]'>Interactions</a>"
+	if(show_bellyriding_tab)
+		dat += "<a href='?src=[REF(src)];task=tab;tab=bellyriding' class='tab [selected_tab == "bellyriding" ? "active" : ""]'>Bellyriding</a>"
 	dat += "<a href='?src=[REF(src)];task=tab;tab=genital' class='tab [selected_tab == "genital" ? "active" : ""]'>Controls</a>"
 	dat += "<a href='?src=[REF(src)];task=tab;tab=session' class='tab [selected_tab == "session" ? "active" : ""]'>Session</a>"
 	dat += "<a href='?src=[REF(src)];task=tab;tab=preferences' class='tab [selected_tab == "preferences" ? "active" : ""]'>Preferences</a>"
@@ -607,6 +619,8 @@
 
 		if(action.name == "Salute")
 			button_class += " blue"
+		if(is_resisting)
+			button_class += " resist"
 		if(!can_perform)
 			button_class += " linkOff"
 		if(is_current)
@@ -621,6 +635,53 @@
 		dat += "</div>"
 	dat += "</div>"
 	dat += "</div>"
+
+	// Bellyriding Tab
+	if(show_bellyriding_tab)
+		dat += "<div class='tab-content [selected_tab == "bellyriding" ? "active" : ""]' id='bellyriding-tab'>"
+		dat += "<div class='action-list'>"
+		if(belly_comp)
+			var/toggle_label = belly_comp.enable_interactions ? "Disable Bellyriding Interactions" : "Enable Bellyriding Interactions"
+			var/toggle_class = belly_comp.enable_interactions ? "action-button linkOn" : "action-button linkOff"
+			dat += "<div class='action-item'>"
+			dat += "<a class='[toggle_class]' href='?src=[REF(src)];task=bellyriding_toggle;tab=[selected_tab]'>[toggle_label]</a>"
+			dat += "</div>"
+			dat += "<div class='action-item'>"
+			dat += "<a class='action-button' href='?src=[REF(src)];task=bellyriding_release;tab=[selected_tab]'>Release From Harness</a>"
+			dat += "</div>"
+
+		var/list/bellyriding_actions = list(
+			/datum/sex_action/bellyriding/groin_rub,
+			/datum/sex_action/bellyriding/frot,
+			/datum/sex_action/bellyriding/vaginal,
+			/datum/sex_action/bellyriding/anal
+		)
+		for(var/action_type in bellyriding_actions)
+			var/datum/sex_action/action = SEX_ACTION(action_type)
+			if(!action)
+				continue
+
+			dat += "<div class='action-item'>"
+			var/button_class = "action-button"
+			var/is_current = (current_action == action_type)
+			var/can_perform = can_perform_action(action_type)
+
+			if(is_resisting)
+				button_class += " resist"
+			if(!can_perform)
+				button_class += " linkOff"
+			if(is_current)
+				button_class += " active"
+
+			dat += "<a class='[button_class]' href='?src=[REF(src)];task=action;action_type=[action_type];tab=[selected_tab]'>[action.name]</a>"
+
+			dat += "<div class='action-icons'>"
+			if(is_current)
+				dat += "<a href='?src=[REF(src)];task=stop;tab=[selected_tab]' class='icon-btn stop'></a>"
+			dat += "</div>"
+			dat += "</div>"
+		dat += "</div>"
+		dat += "</div>"
 
 	// Controls Tab
 	dat += "<div class='tab-content [selected_tab == "genital" ? "active" : ""]' id='genital-tab'>"
@@ -1017,6 +1078,14 @@
 
 		if("toggle_subtle")
 			collective.toggle_subtle()
+		if("bellyriding_toggle")
+			var/datum/component/bellyriding/belly_comp = get_bellyriding_component()
+			if(belly_comp)
+				belly_comp.enable_interactions = !belly_comp.enable_interactions
+		if("bellyriding_release")
+			var/datum/component/bellyriding/belly_comp = get_bellyriding_component()
+			if(belly_comp)
+				belly_comp.unbuckle_victim()
 
 		// Generic preference handler - delegates to the preference datum
 		if("handle_pref")
@@ -1100,6 +1169,17 @@
 					to_chat(user, "<span class='warning'>Note not found.</span>")
 
 	show_ui(selected_tab)
+
+/datum/sex_session/proc/get_bellyriding_component()
+	if(!user || !target)
+		return null
+	var/datum/component/bellyriding/belly_comp = user.GetComponent(/datum/component/bellyriding)
+	if(belly_comp && belly_comp.current_victim == target)
+		return belly_comp
+	belly_comp = target.GetComponent(/datum/component/bellyriding)
+	if(belly_comp && belly_comp.current_victim == user)
+		return belly_comp
+	return null
 
 /datum/sex_session/proc/get_sex_session_header()
 	if(user == target)

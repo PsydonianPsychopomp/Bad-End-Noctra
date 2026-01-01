@@ -766,8 +766,8 @@ GLOBAL_LIST_EMPTY(donator_races)
 
 	/// Validate the variables within customizer entries
 	for(var/datum/customizer_entry/entry as anything in customizer_entries)
-		var/datum/customizer_choice/customizer_choice = CUSTOMIZER_CHOICE(entry.customizer_choice_type)
-		customizer_choice.validate_entry(human, entry)
+		var/datum/customizer/customizer = CUSTOMIZER(entry.customizer_type)
+		customizer.validate_entry(human, entry)
 
 /datum/species/proc/on_species_gain(mob/living/carbon/C, datum/species/old_species, datum/preferences/pref_load)
 	// Drop the items the new species can't wear
