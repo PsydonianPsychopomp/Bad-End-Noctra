@@ -398,6 +398,8 @@
 			return pick(list("brutally", "violently", "relentlessly", "savagely", "mercilessly"))
 
 /datum/sex_session/proc/spanify_force(string)
+	if(target?.cmode)
+		return span_danger(string)
 	switch(force)
 		if(SEX_FORCE_LOW)
 			return "<span class='love_low'>[string]</span>"
@@ -432,6 +434,7 @@
 	SEND_SIGNAL(user, COMSIG_SEX_GET_AROUSAL, arousal_data)
 	var/datum/component/bellyriding/belly_comp = get_bellyriding_component()
 	var/show_bellyriding_tab = (belly_comp != null)
+	var/is_resisting = (target && target.cmode)
 	if(!show_bellyriding_tab && selected_tab == "bellyriding")
 		selected_tab = "interactions"
 
@@ -464,6 +467,9 @@
 	dat += ".action-button:hover { background-color: #5a3525; }"
 	dat += ".action-button.blue { background-color: #3a4a5a; border-color: #5a6a7a; }"
 	dat += ".action-button.blue:hover { background-color: #4a5a6a; }"
+	dat += ".action-button.resist { background-color: #5a1f1f; border-color: #7a2a2a; color: #f2b3b3; }"
+	dat += ".action-button.resist:hover { background-color: #6a2525; }"
+	dat += ".action-button.resist.active { background-color: #7a2a2a !important; border-color: #913333 !important; color: #ffffff !important; box-shadow: 0 0 5px rgba(145, 51, 51, 0.5) !important; }"
 	dat += ".action-button.active { background-color: #8b6914 !important; color: #ffffff !important; border-color: #a07a1a !important; box-shadow: 0 0 5px rgba(139, 105, 20, 0.5) !important; }"
 	dat += ".action-icons { display: flex; margin-left: 5px; }"
 	dat += ".icon-btn { width: 25px; height: 25px; margin-left: 2px; background-color: #4a2c20; border: 1px solid #2a1a15; color: #d4af8c; text-align: center; line-height: 23px; cursor: pointer; font-size: 11px; text-decoration: none; }"
@@ -613,6 +619,8 @@
 
 		if(action.name == "Salute")
 			button_class += " blue"
+		if(is_resisting)
+			button_class += " resist"
 		if(!can_perform)
 			button_class += " linkOff"
 		if(is_current)
@@ -658,6 +666,8 @@
 			var/is_current = (current_action == action_type)
 			var/can_perform = can_perform_action(action_type)
 
+			if(is_resisting)
+				button_class += " resist"
 			if(!can_perform)
 				button_class += " linkOff"
 			if(is_current)

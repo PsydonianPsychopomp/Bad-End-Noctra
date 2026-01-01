@@ -1722,6 +1722,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						real_name = real_name = pref_species.random_name(gender,1)
 						ResetJobs(user)
 						randomise_appearance_prefs(RANDOMIZE_UNDERWEAR | RANDOMIZE_HAIRSTYLE)
+						update_gendered_customizers()
 						accessory = "Nothing"
 						detail = "Nothing"
 						to_chat(user, span_notice("In this land, men enjoy many rights women do not.<br>Women are considered property of either their husbands or fathers, and slavers tend to target those with neither."))

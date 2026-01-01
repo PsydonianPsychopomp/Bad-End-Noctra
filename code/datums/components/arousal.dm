@@ -167,6 +167,10 @@
 
 /datum/component/arousal/proc/receive_sex_action(datum/source, arousal_amt, pain_amt, giving, applied_force, applied_speed, applied_resist, edged_by_other)
 	var/mob/living/user = parent
+	var/no_arousal_gain = FALSE
+	if(!giving && user.cmode)
+		applied_resist = RESIST_HIGH
+		no_arousal_gain = TRUE
 
 	// Apply multipliers
 	arousal_amt *= get_force_pleasure_multiplier(applied_force, giving)
@@ -282,7 +286,7 @@
 			var/spentmessage = pick("I need to let my loins rest!", "I came too much too quickly!")
 			to_chat(user, span_warn(spentmessage))
 
-	if(!arousal_frozen)
+	if(!arousal_frozen && !no_arousal_gain)
 		adjust_arousal(source, arousal_amt)
 
 	damage_from_pain(pain_amt, giving)
@@ -353,85 +357,126 @@
 
 
 /datum/component/arousal/proc/handle_climax(datum/sex_action/action, climax_type, mob/living/carbon/human/user, mob/living/carbon/human/target)
+	var/mob/living/carbon/human/climaxer = parent
+	var/mob/living/carbon/human/recipient
 	var/obj/item/organ/genitals/filling_organ/testicles/testes
 	var/obj/item/organ/genitals/filling_organ/vagina/vag
-	if(user.getorganslot(ORGAN_SLOT_TESTICLES) && user.getorganslot(ORGAN_SLOT_PENIS))
-		testes = user.getorganslot(ORGAN_SLOT_TESTICLES)
-	if(user.getorganslot(ORGAN_SLOT_VAGINA))
-		vag = user.getorganslot(ORGAN_SLOT_VAGINA)
-	if(issimple(user))
-		log_combat(user, user, "Ejaculated")
-		user.visible_message(span_love("[user] makes a mess!"))
-		playsound(user, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-		var/turf/turf = get_turf(target)
-		turf.add_liquid(/datum/reagent/consumable/cum, 5)
-		after_ejaculation(climax_type == "into" || climax_type == "oral", user, target)
+
+	if(!climaxer)
 		return
+	if(climaxer.getorganslot(ORGAN_SLOT_TESTICLES) && climaxer.getorganslot(ORGAN_SLOT_PENIS))
+		testes = climaxer.getorganslot(ORGAN_SLOT_TESTICLES)
+	if(climaxer.getorganslot(ORGAN_SLOT_VAGINA))
+		vag = climaxer.getorganslot(ORGAN_SLOT_VAGINA)
+
+	if(climaxer == user && target && target != climaxer)
+		recipient = target
+	else if(climaxer == target && user && user != climaxer)
+		recipient = user
+
+	if(issimple(climaxer))
+		log_combat(climaxer, climaxer, "Ejaculated")
+		climaxer.visible_message(span_love("[climaxer] makes a mess!"))
+		playsound(climaxer, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+		var/turf/simple_turf = get_turf(recipient ? recipient : climaxer)
+		if(simple_turf)
+			simple_turf.add_liquid(/datum/reagent/consumable/cum, 5)
+		after_ejaculation(climax_type == "into" || climax_type == "oral", climaxer, recipient)
+		return
+
+	var/is_oral = FALSE
+	if(action)
+		if(action.hole_id == BODY_ZONE_PRECISE_MOUTH || istype(action, /datum/sex_action/cunnilingus))
+			is_oral = TRUE
+
 	switch(climax_type)
 		if("onto")
-			log_combat(user, target, "Came onto the target")
-			playsound(target, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-			var/turf/turf = get_turf(target)
-			if(testes)
-				var/cum_to_take = CLAMP((testes.reagents.maximum_volume/2), 1, testes.reagents.total_volume)
-				if(testes.reagents)
-					turf.add_liquid_from_reagents(testes.reagents, amount = cum_to_take)
-					if(target && !action.knot_on_finish)
-						target.apply_status_effect(/datum/status_effect/facial)
-			if(vag)
-				var/femcum_to_take = min(8, vag.reagents.total_volume)
-				if(vag.reagents)
-					turf.add_liquid_from_reagents(testes.reagents, amount = femcum_to_take)
+			log_combat(climaxer, recipient, "Came onto the target")
+			var/mob/living/carbon/human/played_on = recipient ? recipient : climaxer
+			playsound(played_on, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+			var/turf/onto_turf = get_turf(played_on)
+			if(onto_turf)
+				if(testes && testes.reagents)
+					var/cum_to_take = CLAMP((testes.reagents.maximum_volume / 2), 1, testes.reagents.total_volume)
+					onto_turf.add_liquid_from_reagents(testes.reagents, amount = cum_to_take)
+				if(vag && vag.reagents)
+					var/femcum_to_take = min(8, vag.reagents.total_volume)
+					onto_turf.add_liquid_from_reagents(vag.reagents, amount = femcum_to_take)
+				onto_turf.add_liquid(/datum/reagent/consumable/milk, 5)
+			if(recipient && (!action || !action.knot_on_finish))
+				apply_facial_effect(recipient)
 		if("into")
-			var/obj/item/organ/genitals/filling_organ/cameloc
-			switch(action.hole_id)
-				if(ORGAN_SLOT_VAGINA)
-					cameloc = target.getorganslot(ORGAN_SLOT_VAGINA)
-				if(ORGAN_SLOT_ANUS)
-					cameloc = target.getorganslot(ORGAN_SLOT_ANUS)
-			if(cameloc)
-				if(testes)
-					if(testes.reagents)
-						var/cum_to_take = CLAMP((testes.reagents.maximum_volume/4), 1, min(testes.reagents.total_volume, cameloc.reagents.maximum_volume - cameloc.reagents.total_volume))
-						testes.reagents.trans_to(cameloc, cum_to_take, transfered_by = user, method = INGEST)
-			else
-				if(testes)
-					if(testes.reagents)
-						var/cum_to_take = CLAMP((testes.reagents.maximum_volume/4), 1, testes.reagents.total_volume)
-						testes.reagents.trans_to(target,  cum_to_take, transfered_by = user, method = INGEST) //digest anyway if none of those.
-			log_combat(user, target, "Came inside the target")
-			playsound(target, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+			log_combat(climaxer, recipient, "Came inside the target")
+			var/mob/living/carbon/human/played_on = recipient ? recipient : climaxer
+			playsound(played_on, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+			if(testes && testes.reagents)
+				var/obj/item/organ/genitals/filling_organ/cameloc
+				if(target && action)
+					switch(action.hole_id)
+						if(ORGAN_SLOT_VAGINA)
+							cameloc = target.getorganslot(ORGAN_SLOT_VAGINA)
+						if(ORGAN_SLOT_ANUS)
+							cameloc = target.getorganslot(ORGAN_SLOT_ANUS)
+				if(cameloc && cameloc.reagents)
+					var/cum_to_take = CLAMP((testes.reagents.maximum_volume / 4), 1, min(testes.reagents.total_volume, cameloc.reagents.maximum_volume - cameloc.reagents.total_volume))
+					testes.reagents.trans_to(cameloc, cum_to_take, transfered_by = climaxer, method = INGEST)
+				else if(recipient)
+					var/cum_to_take = CLAMP((testes.reagents.maximum_volume / 4), 1, testes.reagents.total_volume)
+					testes.reagents.trans_to(recipient, cum_to_take, transfered_by = climaxer, method = INGEST)
+			if(recipient)
+				apply_creampie_effect(recipient)
 		if("oral")
-			if(user.getorganslot(ORGAN_SLOT_PENIS) && action.check_sex_lock(user, ORGAN_SLOT_PENIS))
-				if(testes)
-					if(testes.reagents)
-						var/cum_to_take = CLAMP((testes.reagents.maximum_volume/4), 1, min(testes.reagents.total_volume, target.reagents.maximum_volume - target.reagents.total_volume))
-						testes.reagents.trans_to(target, cum_to_take, transfered_by = user, method = INGEST)
-			if(user.getorganslot(ORGAN_SLOT_VAGINA) && action.check_sex_lock(user, ORGAN_SLOT_VAGINA))
-				if(vag)
-					if(vag.reagents)
+			log_combat(climaxer, recipient, "Came inside the mouth of the target")
+			var/mob/living/carbon/human/played_on = recipient ? recipient : climaxer
+			playsound(played_on, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+			if(recipient && action)
+				if(climaxer.getorganslot(ORGAN_SLOT_PENIS) && action.check_sex_lock(climaxer, ORGAN_SLOT_PENIS))
+					if(testes && testes.reagents)
+						var/cum_to_take = CLAMP((testes.reagents.maximum_volume / 4), 1, min(testes.reagents.total_volume, recipient.reagents.maximum_volume - recipient.reagents.total_volume))
+						testes.reagents.trans_to(recipient, cum_to_take, transfered_by = climaxer, method = INGEST)
+				if(climaxer.getorganslot(ORGAN_SLOT_VAGINA) && action.check_sex_lock(climaxer, ORGAN_SLOT_VAGINA))
+					if(vag && vag.reagents)
 						var/femcum_to_take = min(8, vag.reagents.total_volume)
-						testes.reagents.trans_to(target, femcum_to_take, transfered_by = user, method = INGEST)
-			log_combat(user, target, "Came inside the mouth of the target")
-			playsound(target, 'sound/misc/mat/endin.ogg', 50, TRUE, ignore_walls = FALSE)
+						vag.reagents.trans_to(recipient, femcum_to_take, transfered_by = climaxer, method = INGEST)
+			if(recipient)
+				if(is_oral)
+					apply_facial_effect(recipient)
+				else
+					apply_creampie_effect(recipient)
 		if("self")
-			log_combat(user, user, "Ejaculated")
-			user.visible_message(span_love("[user] makes a mess!"))
-			playsound(user, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
-			var/turf/turf = get_turf(target)
-			if(testes)
-				var/cum_to_take = CLAMP((testes.reagents.maximum_volume/2), 1, testes.reagents.total_volume)
-				if(testes.reagents)
-					turf.add_liquid_from_reagents(testes.reagents, amount = cum_to_take)
-			if(vag)
-				var/femcum_to_take = min(8, vag.reagents.total_volume)
-				if(vag.reagents)
-					turf.add_liquid_from_reagents(testes.reagents, amount = femcum_to_take)
-	if(testes)
-		if(testes.reagents)
-			if(testes.reagents.total_volume <= testes.reagents.maximum_volume / 4)
-				to_chat(user, span_info("Damn, my [pick(testes.altnames)] are pretty dry now."))
-	after_ejaculation(climax_type == "into" || climax_type == "oral", user, target)
+			log_combat(climaxer, climaxer, "Ejaculated")
+			climaxer.visible_message(span_love("[climaxer] makes a mess!"))
+			playsound(climaxer, 'sound/misc/mat/endout.ogg', 50, TRUE, ignore_walls = FALSE)
+			var/turf/self_turf = get_turf(climaxer)
+			if(self_turf)
+				if(testes && testes.reagents)
+					var/cum_to_take = CLAMP((testes.reagents.maximum_volume / 2), 1, testes.reagents.total_volume)
+					self_turf.add_liquid_from_reagents(testes.reagents, amount = cum_to_take)
+				if(vag && vag.reagents)
+					var/femcum_to_take = min(8, vag.reagents.total_volume)
+					self_turf.add_liquid_from_reagents(vag.reagents, amount = femcum_to_take)
+	if(testes && testes.reagents)
+		if(testes.reagents.total_volume <= testes.reagents.maximum_volume / 4)
+			to_chat(climaxer, span_info("Damn, my [pick(testes.altnames)] are pretty dry now."))
+	after_ejaculation(climax_type == "into" || climax_type == "oral", climaxer, recipient)
+
+/datum/component/arousal/proc/apply_facial_effect(mob/living/carbon/human/recipient)
+	if(!recipient)
+		return
+	var/datum/status_effect/facial/facial_effect = recipient.has_status_effect(/datum/status_effect/facial)
+	if(facial_effect)
+		facial_effect.refresh_cum()
+	else
+		recipient.apply_status_effect(/datum/status_effect/facial)
+
+/datum/component/arousal/proc/apply_creampie_effect(mob/living/carbon/human/recipient)
+	if(!recipient)
+		return
+	var/datum/status_effect/facial/internal/creampie_effect = recipient.has_status_effect(/datum/status_effect/facial/internal)
+	if(creampie_effect)
+		creampie_effect.refresh_cum()
+	else
+		recipient.apply_status_effect(/datum/status_effect/facial/internal)
 
 /datum/component/arousal/proc/after_ejaculation(intimate = FALSE, mob/living/carbon/human/user, mob/living/carbon/human/target)
 	switch(edging_charge)

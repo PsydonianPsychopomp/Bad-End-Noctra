@@ -145,3 +145,43 @@
 	L.remove_status_effect(/datum/status_effect/bugged)
 
 	return TRUE
+
+/datum/status_effect/facial
+	id = "facial"
+	alert_type = null
+	tick_interval = 12 MINUTES
+	var/has_dried_up = FALSE
+
+/datum/status_effect/facial/internal
+	id = "creampie"
+	alert_type = null
+	tick_interval = 7 MINUTES
+
+/datum/status_effect/facial/on_apply()
+	. = ..()
+	if(!.)
+		return FALSE
+	RegisterSignal(owner, list(COMSIG_COMPONENT_CLEAN_ACT, COMSIG_COMPONENT_CLEAN_FACE_ACT), PROC_REF(clean_up))
+	has_dried_up = FALSE
+	return TRUE
+
+/datum/status_effect/facial/on_remove()
+	UnregisterSignal(owner, list(COMSIG_COMPONENT_CLEAN_ACT, COMSIG_COMPONENT_CLEAN_FACE_ACT))
+	return ..()
+
+/datum/status_effect/facial/tick()
+	has_dried_up = TRUE
+
+/datum/status_effect/facial/proc/refresh_cum()
+	has_dried_up = FALSE
+	tick_interval = world.time + initial(tick_interval)
+
+/datum/status_effect/facial/proc/clean_up(datum/source, clean_types)
+	SIGNAL_HANDLER
+	if(QDELETED(owner))
+		return
+	if(clean_types & (CLEAN_WASH | CLEAN_SCRUB | CLEAN_ALL))
+		if(!owner.has_stress_type(/datum/stress_event/bathcleaned))
+			to_chat(owner, span_notice("I feel much cleaner now!"))
+			owner.add_stress(/datum/stress_event/bathcleaned)
+		owner.remove_status_effect(src)

@@ -103,10 +103,10 @@
 /obj/item/rope/proc/apply_cuffs(mob/living/carbon/target, mob/user, leg = FALSE)
 	if(!leg)
 		if(target.handcuffed)
-			return
+			return FALSE
 
 		if(!user.temporarilyRemoveItemFromInventory(src) )
-			return
+			return FALSE
 
 		var/obj/item/cuffs = src
 
@@ -114,13 +114,13 @@
 		target.set_handcuffed(cuffs)
 
 		target.update_handcuffed()
-		return
+		return TRUE
 	else
 		if(target.legcuffed)
-			return
+			return FALSE
 
 		if(!user.temporarilyRemoveItemFromInventory(src) )
-			return
+			return FALSE
 
 		var/obj/item/cuffs = src
 
@@ -130,7 +130,7 @@
 		target.add_movespeed_modifier(MOVESPEED_ID_LEGCUFF_SLOWDOWN, multiplicative_slowdown = legcuff_multiplicative_slowdown)
 
 		target.update_inv_legcuffed()
-		return
+		return TRUE
 
 /obj/item/rope/chain
 	name = "chain"

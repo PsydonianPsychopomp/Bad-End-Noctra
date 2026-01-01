@@ -135,7 +135,11 @@
 	//do grab here
 	if(iscarbon(basic_mob))
 		var/mob/living/carbon/carbon_mob = controller.pawn
-		if(!carbon_mob.pulling)
+		var/target_restrained = FALSE
+		if(iscarbon(target_living))
+			var/mob/living/carbon/carbon_target = target_living
+			target_restrained = carbon_target.handcuffed || carbon_target.legcuffed
+		if(!carbon_mob.pulling && !target_restrained)
 			if(carbon_mob.get_active_held_item())
 				carbon_mob.drop_all_held_items()
 			var/sel_zone
@@ -187,14 +191,14 @@
 			if(basic_mob.Adjacent(human_target) && !human_target.handcuffed && human_target.get_num_arms(TRUE) > 1)
 				c_mob.visible_message(span_danger("[c_mob] begins to tie up [human_target]'s limbs!"))
 				if(do_after(c_mob, 1.5 SECONDS, human_target))
-					// Create and use grab object
+					// Create and use rope cuffs
 					var/obj/item/rope/rope_item = new /obj/item/rope
-					rope_item.item_flags = DROPDEL
 
 					if(rope_item.apply_cuffs(human_target, c_mob))
 						var/obj/item/rope/leg_rope = new /obj/item/rope
-						leg_rope.item_flags = DROPDEL
-						leg_rope.apply_cuffs(human_target, c_mob, TRUE)  // TRUE for legcuffs
+						if(!leg_rope.apply_cuffs(human_target, c_mob, TRUE))  // TRUE for legcuffs
+							qdel(leg_rope)
+						c_mob.stop_pulling()
 					else
 						qdel(rope_item)
 				return
