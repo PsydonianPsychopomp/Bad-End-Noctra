@@ -317,27 +317,28 @@
 
 ///Adds stuttering to the message passed in
 /proc/stutter(n)
-	var/te = html_decode(n)
-	var/t = ""//placed before the message. Not really sure what it's for.
-	n = length(n)//length of the entire word
-	var/p = null
-	p = 1//1 is the start of any word
-	while(p <= n)//while P, which starts at 1 is less or equal to N which is the length.
-		var/n_letter = copytext_char(te, p, p + 1)//copies text from a certain distance. In this case, only one letter at a time.
-		if (prob(80) && (ckey(n_letter) in list("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z")))
-			if (prob(10))
-				n_letter = text("[n_letter]-[n_letter]-[n_letter]-[n_letter]")//replaces the current letter with this instead.
-			else
-				if (prob(20))
-					n_letter = text("[n_letter]-[n_letter]-[n_letter]")
-				else
-					if (prob(5))
-						n_letter = null
-					else
-						n_letter = text("[n_letter]-[n_letter]")
-		t = text("[t][n_letter]")//since the above is ran through for each letter, the text just adds up back to the original word.
-		p++//for each letter p is increased to find where the next letter will be.
-	return copytext_char(sanitize(t),1,MAX_MESSAGE_LEN)
+	var/text = html_decode(n)
+	var/list/words = splittext(text, " ")
+	var/list/processed = list()
+	var/list/consonants = list("b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z")
+	var/stutter_limit = 2
+	var/stutters_done = 0
+
+	for(var/word in words)
+		if(!length(word))
+			continue
+
+		var/first_letter = copytext(word, 1, 2)
+		var/stuttered_word = word
+
+		if(stutters_done < stutter_limit && length(word) > 3 && prob(25) && (ckey(lowertext(first_letter)) in consonants))
+			// Limit the number of stutters and avoid very short words to keep speech readable.
+			stuttered_word = "[first_letter]-[word]"
+			stutters_done++
+
+		processed += stuttered_word
+
+	return copytext(sanitize(jointext(processed, " ")), 1, MAX_MESSAGE_LEN)
 
 ///Convert a message to derpy speak
 /proc/derpspeech(message, stuttering)
