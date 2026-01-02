@@ -1156,8 +1156,6 @@
 			log_telecomms(log_text)
 		if(LOG_OOC)
 			log_ooc(log_text)
-		if(LOG_LOOC)
-			log_looc(log_text)
 		if(LOG_ADMIN)
 			log_admin(log_text)
 		if(LOG_ADMIN_PRIVATE)
