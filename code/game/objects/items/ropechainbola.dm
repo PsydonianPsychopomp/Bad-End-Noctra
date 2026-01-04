@@ -108,13 +108,13 @@
 		if(!user.temporarilyRemoveItemFromInventory(src) )
 			return FALSE
 
-		var/obj/item/cuffs = src
+	var/obj/item/cuffs = src
 
-		cuffs.forceMove(target)
-		target.set_handcuffed(cuffs)
+	cuffs.forceMove(target)
+	target.set_handcuffed(cuffs)
 
-		target.update_handcuffed()
-		return FALSE
+	target.update_handcuffed()
+	return TRUE
 	else
 		if(target.legcuffed)
 			return FALSE
@@ -122,15 +122,15 @@
 		if(!user.temporarilyRemoveItemFromInventory(src) )
 			return FALSE
 
-		var/obj/item/cuffs = src
+	var/obj/item/cuffs = src
 
-		cuffs.forceMove(target)
-		target.legcuffed = cuffs
+	cuffs.forceMove(target)
+	target.legcuffed = cuffs
 
-		target.add_movespeed_modifier(MOVESPEED_ID_LEGCUFF_SLOWDOWN, multiplicative_slowdown = legcuff_multiplicative_slowdown)
+	target.add_movespeed_modifier(MOVESPEED_ID_LEGCUFF_SLOWDOWN, multiplicative_slowdown = legcuff_multiplicative_slowdown)
 
-		target.update_inv_legcuffed()
-		return FALSE
+	target.update_inv_legcuffed()
+	return TRUE
 
 /obj/item/rope/chain
 	name = "chain"
