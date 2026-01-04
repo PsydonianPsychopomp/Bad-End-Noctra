@@ -1,5 +1,5 @@
 /datum/job/servant
-	title = "Servant"
+	title = "Manor slave"
 
 	tutorial = "You were raised as a primer slave to serve. \
 	You were trained in gladiatorial combat to fight when commanded \
