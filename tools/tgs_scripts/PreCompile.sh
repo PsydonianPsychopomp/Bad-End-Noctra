@@ -1,38 +1,26 @@
-#!/bin/bash
-
-./InstallDeps.sh
-
-set -e
-set -x
-
-#load dep exports
-#need to switch to game dir for Dockerfile weirdness
-original_dir=$PWD
-cd "$1"
-. dependencies.sh
-cd "$original_dir"
-
-
+  GNU nano 6.2           /home/tgs/instances/BadEndTheatre2/Configuration/EventScripts/PreCompile.sh *                  #!/bin/bash
 # update rust-g
-if [ ! -d "rust-g" ]; then
-	echo "Cloning rust-g..."
-	git clone https://github.com/tgstation/rust-g
-	cd rust-g
-	~/.cargo/bin/rustup target add i686-unknown-linux-gnu
+
+: "${RUST_G_VERSION:=3.9.0}"
+
+RUSTG_DIR="$1/rust-g"
+
+if [ ! -d "$RUSTG_DIR/.git" ]; then
+        echo "Cloning rust-g..."
+        rm -rf "$RUSTG_DIR"
+        git clone https://github.com/tgstation/rust-g "$RUSTG_DIR"
 else
-	echo "Fetching rust-g..."
-	cd rust-g
-	git fetch
-	~/.cargo/bin/rustup target add i686-unknown-linux-gnu
+        echo "Fetching rust-g..."
+        git -C "$RUSTG_DIR" fetch --all --prune
 fi
 
-echo "Deploying rust-g..."
-git checkout "$RUST_G_VERSION"
-env PKG_CONFIG_ALLOW_CROSS=1 ~/.cargo/bin/cargo build --ignore-rust-version --release --target=i686-unknown-linux-gnu
-mv target/i686-unknown-linux-gnu/release/librust_g.so "$1/librust_g.so"
-cd ..
+cd "$RUSTG_DIR"
 
-# compile tgui
-echo "Compiling tgui..."
-cd "$1"
-env TG_BOOTSTRAP_CACHE="$original_dir" TG_BOOTSTRAP_NODE_LINUX=1 CBT_BUILD_MODE="TGS" tools/bootstrap/node tools/build/build.js
+"$HOME/.cargo/bin/rustup" target add i686-unknown-linux-gnu
+
+echo "Deploying rust-g..."
+git checkout -f "$RUST_G_VERSION"
+
+env PKG_CONFIG_ALLOW_CROSS=1 \
+    CARGO_TARGET_DIR="$RUSTG_DIR/target" \
+    "$HOME/.cargo/bin/cargo" build --ignore-rust-version --release --target=i686-unknown-linux-gnu
