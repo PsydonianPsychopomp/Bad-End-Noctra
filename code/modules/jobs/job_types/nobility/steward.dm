@@ -49,13 +49,14 @@
 	..()
 	if(H.gender == FEMALE)
 		shirt = /obj/item/clothing/shirt/dress/stewarddress
-		H.set_flaw(/datum/charflaw/indentured)
 	else
 		shirt = /obj/item/clothing/shirt/undershirt/fancy
 		pants = /obj/item/clothing/pants/trou/leathertights
 
 /datum/job/steward/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
+	if(spawned.gender == FEMALE)
+		spawned.set_flaw(/datum/charflaw/indentured)
 	spawned.virginity = TRUE
 
 /datum/outfit/steward
