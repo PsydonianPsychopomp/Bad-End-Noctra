@@ -16,7 +16,7 @@ I don't really want the arquebus to inherit some of the procs and vars from Vand
 	desc = "A Helmsguard pattern of musket commonly used in pike and shot formations. It needs to be wielded with two hands to be properly used.\
 	To use it, you must first fill it with blastpowder, then insert a lead ball and ram it with a ramrod before firing. A ramrod is usually stored on\
 	the side of the musket itself. (Use middle click to insert/remove the ramrod.)"
-	icon_state = "arquebus"
+	icon_state = "arquebus_ramrod"
 	item_state = "musket"
 	bigboy = TRUE
 	recoil = 10
@@ -30,7 +30,7 @@ I don't really want the arquebus to inherit some of the procs and vars from Vand
 	possible_item_intents = list(INTENT_GENERIC)
 	gripped_intents = list(/datum/intent/shoot/musket, /datum/intent/shoot/musket/arc, POLEARM_BASH)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/musk
-	associated_skill = /datum/skill/combat/firearms
+	associated_skill = /datum/skill/combat/polearms
 	slot_flags = ITEM_SLOT_BACK
 	wlength = WLENGTH_LONG
 	w_class = WEIGHT_CLASS_BULKY
@@ -63,6 +63,10 @@ I don't really want the arquebus to inherit some of the procs and vars from Vand
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus_musket/Initialize()
 	. = ..()
 	myrod = new /obj/item/ramrod(src)
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/arquebus_musket/update_icon_state()
+	. = ..()
+	icon_state = "arquebus[ramrod_inserted ? "_ramrod" : ""][bayonet_affixed ? "_bayonet" : ""]"
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus_musket/attack_self(mob/living/user, params)
 	if(SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_SELF, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
@@ -98,7 +102,7 @@ I don't really want the arquebus to inherit some of the procs and vars from Vand
 			force -= bayonet.force
 			bayonet = null
 			to_chat(user, span_info("I remove the bayonet from \the [src]."))
-			playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+			playsound(src.loc, 'sound/items/sharpen_long2.ogg', 100, FALSE, -1)
 		update_appearance(UPDATE_ICON_STATE)
 	..()
 
@@ -152,7 +156,28 @@ I don't really want the arquebus to inherit some of the procs and vars from Vand
 			else
 				to_chat(user, "<span class='warning'>Not enough blastpowder in [I] to powder the [src].</span>")
 				return 0
-
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(istype(H.get_active_held_item(), /obj/item/weapon/knife/dagger/bayonet))
+			if(!H.is_holding(src))
+				to_chat(user, span_warning("I need to hold \the [src] to affix a bayonet to it!"))
+				return
+			if(do_after(user, ramtime SECONDS, src))
+				var/obj/item/weapon/knife/dagger/bayonet/attached_bayonet = H.get_active_held_item()
+				attached_bayonet.forceMove(src)
+				bayonet = attached_bayonet
+				bayonet_affixed = TRUE
+				possible_item_intents += SPEAR_THRUST
+				gripped_intents += POLEARM_THRUST
+				sharpness = IS_SHARP
+				max_blade_int = attached_bayonet.max_blade_int
+				blade_int = attached_bayonet.blade_int
+				armor_penetration = 5
+				spread += bayonet.spread
+				force += bayonet.force
+				to_chat(user, span_info("I affix the bayonet to \the [src]."))
+				playsound(src.loc, 'modular_helmsguard/sheath_sounds/put_back_dagger.ogg', 100, FALSE, -1)
+			update_appearance(UPDATE_ICON_STATE)
 	return ..()
 
 
