@@ -513,6 +513,7 @@
 	accuracy = 50 //Lower accuracy than an arrow.
 	reduce_crit_chance = 5 //Reduces crit chance
 	dismemberment = 0 //Can't dismember
+	drop_ammo = FALSE // Don't drop ammo on hit, as this is a reusable bullet
 
 /obj/projectile/bullet/reusable/bullet/on_hit(atom/target)
 	var/atom/throw_target = get_edge_target_turf(firer, get_dir(firer, target))

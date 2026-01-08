@@ -18,7 +18,7 @@
 	item_flags = NEEDS_PERMIT
 	attack_verb = list("struck", "hit", "bashed")
 
-	var/fire_sound = 'sound/blank.ogg'
+	var/list/fire_sound = list('sound/blank.ogg') //Stonedelf: Turn this into a list so we can pick from multiple sounds for variety
 	var/vary_fire_sound = TRUE
 	var/fire_sound_volume = 50
 	var/dry_fire_sound = 'sound/blank.ogg'
@@ -71,7 +71,7 @@
 	if(recoil)
 		shake_camera(user, recoil + 1, recoil)
 
-	playsound(user, fire_sound, fire_sound_volume, vary_fire_sound)
+	playsound(user, pick(fire_sound), fire_sound_volume, vary_fire_sound)
 	if(message)
 		user.visible_message("<span class='danger'>[user] shoots [src]!</span>", \
 						"<span class='danger'>I shoot [src]!</span>", \

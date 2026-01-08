@@ -244,7 +244,7 @@
 	SET_BASE_PIXEL(-16, -16)
 	bigboy = TRUE
 	dropshrink = 0.75
-	fire_sound = 'sound/combat/Ranged/turbulentafire.ogg'
+	fire_sound = list('sound/combat/Ranged/turbulentafire.ogg')
 	possible_item_intents = list(/datum/intent/shoot/bow/turbulenta, /datum/intent/arc/bow/turbulenta)
 	force = 12
 	damfactor = 1.1

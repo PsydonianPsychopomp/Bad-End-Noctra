@@ -12,7 +12,7 @@
 	var/base_icon = "bow"
 	possible_item_intents = list(/datum/intent/shoot/bow, /datum/intent/arc/bow,INTENT_GENERIC)
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bow
-	fire_sound = 'sound/combat/Ranged/flatbow-shot-01.ogg'
+	fire_sound = list('sound/combat/Ranged/flatbow-shot-01.ogg')
 	slot_flags = ITEM_SLOT_BACK|ITEM_SLOT_HIP
 	w_class = WEIGHT_CLASS_BULKY
 	randomspread = 0
@@ -207,7 +207,7 @@
 	item_state = "longbow"
 	base_icon = "longbow"
 	possible_item_intents = list(/datum/intent/shoot/bow/long, /datum/intent/arc/bow/long,INTENT_GENERIC)
-	fire_sound = 'sound/combat/Ranged/flatbow-shot-03.ogg'
+	fire_sound = list('sound/combat/Ranged/flatbow-shot-03.ogg')
 	slot_flags = ITEM_SLOT_BACK
 	force = 12
 	damfactor = 1.2

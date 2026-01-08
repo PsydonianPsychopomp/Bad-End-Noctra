@@ -21,7 +21,7 @@
 	var/cocked = FALSE
 	cartridge_wording = "bolt"
 	load_sound = 'sound/foley/nockarrow.ogg'
-	fire_sound = 'sound/combat/Ranged/crossbow-small-shot-02.ogg'
+	fire_sound = list('sound/combat/Ranged/crossbow-small-shot-02.ogg')
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/slurbow
 	name = "slurbow"
@@ -94,53 +94,6 @@
 			return 10
 	return chargetime
 
-/datum/intent/shoot/musket
-	chargedrain = 0 //no drain to aim a gun
-	charging_slowdown = 4
-	warnoffset = 20
-	chargetime = 10
-
-/datum/intent/shoot/musket/arc
-	name = "arc"
-	icon_state = "inarc"
-	chargedrain = 1
-	charging_slowdown = 3
-	warnoffset = 20
-
-/datum/intent/shoot/musket/arc/arc_check()
-	return TRUE
-
-/datum/intent/shoot/musket/get_chargetime()
-	var/mob/living/master = get_master_mob()
-	if(master && chargetime)
-		var/newtime = chargetime
-		//skill block
-		newtime = newtime + 18
-		newtime = newtime - (master.get_skill_level(/datum/skill/combat/firearms) * 3.5)
-		//per block
-		newtime = newtime + 20
-		newtime = newtime - (master.STAPER)
-		if(newtime > 0)
-			return newtime
-		else
-			return 0.1
-	return chargetime
-
-/datum/intent/shoot/musket/pistol/get_chargetime()
-	var/mob/living/master = get_master_mob()
-	if(master && chargetime)
-		var/newtime = chargetime
-		//skill block
-		newtime = newtime + 18
-		newtime = newtime - (master.get_skill_level(/datum/skill/combat/firearms) * 3.5)
-		//per block
-		newtime = newtime + 20
-		newtime = newtime - (master.STAPER)
-		if(newtime > 0)
-			return newtime
-		else
-			return 1
-	return chargetime
 
 /datum/intent/arc/crossbow
 	chargetime = 1

@@ -20,7 +20,7 @@
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
 	cartridge_wording = "bullet"
-	fire_sound = 'sound/foley/industrial/pneumaticpop.ogg'
+	fire_sound = list('sound/foley/industrial/pneumaticpop.ogg')
 	load_sound = 'sound/foley/industrial/loadin.ogg'
 	equip_sound = 'sound/foley/gun_equip.ogg'
 	pickup_sound = 'sound/foley/gun_equip.ogg'

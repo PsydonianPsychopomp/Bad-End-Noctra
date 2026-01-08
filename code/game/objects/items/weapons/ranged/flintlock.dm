@@ -23,6 +23,11 @@
 	equip_sound = 'sound/foley/gun_equip.ogg'
 	pickup_sound = 'sound/foley/gun_equip.ogg'
 	drop_sound = 'sound/foley/gun_drop.ogg'
+	fire_sound = list('modular_helmsguard/arquebus/sound/arquefire.ogg',
+				'modular_helmsguard/arquebus/sound/arquefire2.ogg',
+				'modular_helmsguard/arquebus/sound/arquefire3.ogg',
+				'modular_helmsguard/arquebus/sound/arquefire4.ogg',
+				'modular_helmsguard/arquebus/sound/arquefire5.ogg')
 	dropshrink = 0.7
 	associated_skill = /datum/skill/combat/firearms
 	possible_item_intents = list(/datum/intent/shoot/musket, /datum/intent/shoot/musket/arc, INTENT_GENERIC)
@@ -38,6 +43,9 @@
 	var/ramrod_inserted = TRUE
 	var/powdered = FALSE
 	var/wound = FALSE
+	var/can_spin = TRUE
+	var/last_spunned
+	var/spin_cooldown = 3 SECONDS
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/update_icon_state()
 	. = ..()
@@ -45,24 +53,28 @@
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/shoot_live_shot(mob/living/user, pointblank, mob/pbtarget, message)
 	..()
-	user.playsound_local(get_turf(user), 'sound/foley/tinnitus.ogg', 60, FALSE) // muh realism or something
-	new /obj/effect/particle_effect/smoke(get_turf(user))
-
+	user.adjust_experience(/datum/skill/combat/firearms, (user.STAINT*5))
+	new /obj/effect/particle_effect/sparks/muzzle(get_ranged_target_turf(user, user.dir, 1))
+	spawn (5)
+		new/obj/effect/particle_effect/smoke/arquebus(get_ranged_target_turf(user, user.dir, 1))
+	spawn (10)
+		new/obj/effect/particle_effect/smoke/arquebus(get_ranged_target_turf(user, user.dir, 2))
+	spawn (16)
+		new/obj/effect/particle_effect/smoke/arquebus(get_ranged_target_turf(user, user.dir, 1))
+	for(var/mob/M in range(5, user))
+		if(!M.stat)
+			shake_camera(M, 3, 1)
 	for(var/mob/M in GLOB.player_list)
 		if(!is_in_zweb(M.z, src.z))
 			continue
-		var/turf/M_turf = get_turf(M)
-		var/shot_sound = sound('sound/combat/Ranged/muskshoot.ogg')
-		if(M_turf)
-			M.playsound_local(M_turf, null, 100, 1, get_rand_frequency(), S = shot_sound)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/shoot_with_empty_chamber(mob/living/user)
 	if(!cocked)
 		return
 	if(wheellock && !wound)
 		return
-	playsound(src.loc, 'sound/combat/Ranged/muskclick.ogg', 100, FALSE)
-	cocked = FALSE
+	playsound(src.loc, 'modular_helmsguard/arquebus/sound/musketcock.ogg', 100, FALSE)
+	to_chat(user, "<span class='warning'>*click!*</span>")
 	wound = FALSE
 	update_appearance(UPDATE_ICON_STATE)
 
@@ -114,14 +126,14 @@
 			rod = null
 			ramrod_inserted = FALSE
 			to_chat(user, "<span class='info'>I remove the ramrod from \the [src].</span>")
-			playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+			playsound(src.loc, 'sound/items/sharpen_short1.ogg', 100, FALSE, -1)
 		else if(istype(H.get_active_held_item(), /obj/item/ramrod))
 			var/obj/item/ramrod/rrod = H.get_active_held_item()
 			rrod.forceMove(src)
 			rod = rrod
 			ramrod_inserted = TRUE
 			to_chat(user, "<span class='info'>I put \the [rrod] into \the [src].</span>")
-			playsound(src.loc, 'sound/foley/struggle.ogg', 100, FALSE, -1)
+			playsound(src.loc, 'modular_helmsguard/arquebus/sound/musketload.ogg', 100, FALSE, -1)
 		update_appearance(UPDATE_ICON_STATE)
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
@@ -173,7 +185,12 @@
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attackby(obj/item/I, mob/user, params)
 	var/ramtime = 5.5
 	ramtime = ramtime - (user.get_skill_level(/datum/skill/combat/firearms) / 2)
-
+	if(istype(I, /obj/item/ammo_box) || istype(I, /obj/item/ammo_casing/caseless/bullet))
+		if(!powdered)
+			to_chat(user, "<span class='warning'>The [src] is not powdered!</span>")
+			return
+		else
+			..()
 	// Check if the item used is a ramrod
 	if(istype(I, /obj/item/ramrod))
 		if(user.get_skill_level(/datum/skill/combat/firearms) <= 0)
@@ -187,9 +204,9 @@
 				to_chat(user, "<span class='warning'>I need to powder the [src] before I can ram it.</span>")
 				return
 			if(!rammed)
+				playsound(src.loc, 'modular_helmsguard/arquebus/sound/ramrod.ogg', 100, FALSE)
 				if(do_after(user, ramtime SECONDS, src))
 					to_chat(user, "<span class='info'>I ram \the [src].</span>")
-					playsound(src.loc, 'sound/foley/nockarrow.ogg', 100, FALSE)
 					rammed = TRUE
 	else
 		// Check if the item used is a reagent container
@@ -202,18 +219,59 @@
 				return
 			// Check if the reagent container contains at least 5u of blastpowder
 			if(I.reagents.get_reagent_amount(/datum/reagent/blastpowder) >= 5)
-				// Subtract 5u of blastpowder from the reagent container
-				I.reagents.remove_reagent(/datum/reagent/blastpowder, 5)
-				// Set the 'powdered' flag on the pistol
-				powdered = TRUE
-				to_chat(user, "<span class='info'>I add blastpowder to \the [src], making it ready for a powerful shot.</span>")
-				playsound(src.loc, 'sound/foley/gunpowder_fill.ogg', 100, FALSE)
+				to_chat(user, "<span class='info'>I am filling \the [src] with blastpowder...</span>")
+				playsound(src.loc, 'modular_helmsguard/arquebus/sound/pour_powder.ogg', 100, FALSE)
+				if(do_after(user, ramtime SECONDS, src))
+					to_chat(user, "<span class='info'>The [src] have been powdered.</span>")
+					// Subtract 5u of blastpowder from the reagent container
+					I.reagents.remove_reagent(/datum/reagent/blastpowder, 5)
+					// Set the 'powdered' flag on the pistol
+					powdered = TRUE
 				return 1
 			else
 				to_chat(user, "<span class='warning'>Not enough blastpowder in [I] to powder the [src].</span>")
 				return 0
 
 	return ..()
+
+
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_self(mob/living/user)
+	var/string = "smoothly"
+	var/list/strings_noob = list("unsurely", "nervously", "anxiously", "timidly", "shakily", "clumsily", "fumblingly", "awkwardly")
+	var/list/strings_moderate = list("smoothly", "confidently", "determinately", "calmly", "skillfully", "decisively")
+	var/list/strings_pro = list("masterfully", "expertly", "flawlessly", "elegantly", "artfully", "impeccably")
+	var/firearm_skill = (user?.mind ? user.get_skill_level(/datum/skill/combat/firearms) : 1)
+	var/noob_spin_sound = 'sound/combat/weaponr1.ogg'
+	var/pro_spin_sound = 'modular_helmsguard/arquebus/sound/gunspin.ogg'
+	var/spin_sound
+	if(firearm_skill <= 2)
+		string = pick(strings_noob)
+		spin_sound = noob_spin_sound
+	if((firearm_skill > 2) && (firearm_skill <= 4))
+		string = pick(strings_moderate)
+		spin_sound = pro_spin_sound
+	if((firearm_skill > 4) && (firearm_skill <= 6))
+		string = pick(strings_pro)
+		spin_sound = pro_spin_sound
+	if(world.time > last_spunned + spin_cooldown)
+		can_spin = TRUE
+	if(can_spin)
+		user.visible_message("<span class='emote'>[user] spins the [src] around their fingers [string]!</span>")
+		playsound(src, spin_sound, 100, FALSE, ignore_walls = FALSE)
+		last_spunned = world.time
+		if(firearm_skill <= 2)
+			if(prob(35))
+				shoot_live_shot(message = 0)
+				user.visible_message("<span class='danger'>[user] accidentally discharged the [src]!</span>")
+		if(firearm_skill <= 3)
+			if(prob(50))
+				user.visible_message("<span class='danger'>[user] accidentally dropped the [src]!</span>")
+				user.dropItemToGround(src)
+		can_spin = FALSE
+
+
+
+
 
 /obj/item/ammo_box/magazine/internal/shot/musk
 	ammo_type = /obj/item/ammo_casing/caseless/bullet
@@ -484,3 +542,68 @@
 	else if(easy_dismember)
 		return probability * 1.5
 	return probability
+
+/// INTENTS
+
+/datum/intent/shoot/musket
+	chargedrain = 0 //no drain to aim a gun
+	charging_slowdown = 4
+	warnoffset = 20
+	chargetime = 10
+
+/datum/intent/shoot/musket/prewarning()
+	var/mob/master_mob = get_master_mob()
+	var/obj/item/master_item = get_master_item()
+	if(master_mob && master_item)
+		master_mob.visible_message("<span class='warning'>[master_mob] aims the [master_item]!</span>")
+		playsound(master_mob, pick('modular_helmsguard/arquebus/sound/musketcock.ogg'), 100, FALSE)
+
+/datum/intent/shoot/musket/arc
+	name = "arc"
+	icon_state = "inarc"
+	chargedrain = 1
+	charging_slowdown = 3
+	warnoffset = 20
+
+
+/datum/intent/shoot/musket/arc/prewarning()
+	var/mob/master_mob = get_master_mob()
+	var/obj/item/master_item = get_master_item()
+	if(master_mob && master_item)
+		master_mob.visible_message("<span class='warning'>[master_mob] aims the [master_item]!</span>")
+		playsound(master_mob, pick('modular_helmsguard/arquebus/sound/musketcock.ogg'), 100, FALSE)
+
+/datum/intent/shoot/musket/arc/arc_check()
+	return TRUE
+
+/datum/intent/shoot/musket/get_chargetime()
+	var/mob/living/master = get_master_mob()
+	if(master && chargetime)
+		var/newtime = chargetime
+		//skill block
+		newtime = newtime + 18
+		newtime = newtime - (master.get_skill_level(/datum/skill/combat/firearms) * 3.5)
+		//per block
+		newtime = newtime + 20
+		newtime = newtime - (master.STAPER)
+		if(newtime > 0)
+			return newtime
+		else
+			return 0.1
+	return chargetime
+
+/datum/intent/shoot/musket/pistol/get_chargetime()
+	var/mob/living/master = get_master_mob()
+	if(master && chargetime)
+		var/newtime = chargetime
+		//skill block
+		newtime = newtime + 18
+		newtime = newtime - (master.get_skill_level(/datum/skill/combat/firearms) * 3.5)
+		//per block
+		newtime = newtime + 20
+		newtime = newtime - (master.STAPER)
+		if(newtime > 0)
+			return newtime
+		else
+			return 1
+	return chargetime
