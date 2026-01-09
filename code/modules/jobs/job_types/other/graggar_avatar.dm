@@ -33,6 +33,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_STRONGBITE,
 		TRAIT_MEDIUMARMOR,
+		TRAIT_HEAVYARMOR,
 	)
 
 /datum/job/graggar_avatar/after_spawn(mob/living/carbon/human/spawned, client/player_client)
