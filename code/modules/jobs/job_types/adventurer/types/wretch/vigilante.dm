@@ -29,7 +29,6 @@
 		/datum/skill/misc/lockpicking = 2,
 		/datum/skill/combat/firearms = 4,
 		/datum/skill/combat/knives = 3,
-		/datum/skill/magic/holy = 1
 	)
 
 	traits = list(
@@ -39,9 +38,7 @@
 		TRAIT_DODGEEXPERT
 	)
 
-	spells = list(
-		/datum/action/cooldown/spell/undirected/conjure_item/puffer
-	)
+
 
 /datum/job/advclass/wretch/vigilante/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
@@ -56,7 +53,8 @@
 
 	wretch_select_bounty(spawned)
 
-/datum/outfit/wretch/vigilante
+/datum/outfit/wretch/vigilante/pre_equip(mob/living/carbon/human/H, visuals_only)
+	. = ..()
 	name = "Renegade (Wretch)"
 	neck = /obj/item/clothing/neck/highcollier/iron/renegadecollar
 	mask = /obj/item/clothing/face/spectacles/inqglasses
@@ -66,6 +64,8 @@
 	armor = /obj/item/clothing/armor/leather/jacket/leathercoat/colored/wretchrenegade
 	backr = /obj/item/storage/backpack/satchel
 	belt = /obj/item/storage/belt/leather/knifebelt/black/iron
+	beltl = /obj/item/reagent_containers/glass/bottle/aflask
+	beltr = /obj/item/ammo_holder/bullet/bullets
 	gloves = /obj/item/clothing/gloves/leather/advanced
 	shoes = /obj/item/clothing/shoes/nobleboot
 	wrists = /obj/item/clothing/wrists/bracers/leather/advanced
@@ -76,3 +76,21 @@
 		/obj/item/flint = 1,
 		/obj/item/reagent_containers/glass/bottle/stronghealthpot = 1,
 	)
+	var/list/weapons = list("Arquebus Musket", "Arquebus Pistol", "Conjure Puffer", "Flintlock Rifle")
+	var/weapon_choice = input("Choose your weapon.", "TAKE UP ARMS") as anything in weapons
+	switch(weapon_choice)
+		if("Arquebus Musket")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus_musket
+			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
+
+		if("Arquebus Pistol")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/arquebus_pistol
+			H.adjust_skillrank(/datum/skill/combat/firearms, 1, TRUE)
+
+		if("Conjure Puffer")
+			H.add_spell(/datum/action/cooldown/spell/undirected/conjure_item/puffer, silent = FALSE)
+			H.adjust_skillrank(/datum/skill/magic/holy, 1, TRUE)
+
+		if("Flintlock Rifle")
+			l_hand = /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/musket
+			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
