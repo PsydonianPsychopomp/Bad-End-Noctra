@@ -73,41 +73,47 @@
 	if(!ishuman(spawned))
 		return
 	var/mob/living/carbon/human/H = spawned
-	addtimer(CALLBACK(src, PROC_REF(offer_weapon_choice), H, player_client), 1)
+	SSticker.OnRoundstart(CALLBACK(src, PROC_REF(offer_weapon_choice), H, player_client))
 
 /datum/job/servant/proc/offer_weapon_choice(mob/living/carbon/human/H, client/player_client)
 	var/client/chooser = player_client || H?.client
 	if(!H || QDELETED(H) || !chooser)
 		return
 
-	var/list/weapons = list("Pikeman", "Fencer", "Bow", "Crossbow", "Knife")
-	var/weapon_choice = input(chooser, "Choose your weapon.", "TAKE UP ARMS") as null|anything in weapons
+	var/list/weapons = list(
+		"Pikeman" = list(/obj/item/weapon/polearm/spear/billhook, /obj/item/weapon/sword/arming),
+		"Fencer" = /obj/item/weapon/sword/rapier,
+		"Bow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/bow/long, /obj/item/ammo_holder/quiver/arrows),
+		"Crossbow" = list(/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow, /obj/item/ammo_holder/quiver/bolts),
+		"Knife" = /obj/item/weapon/knife/dagger/steel
+	)
+	var/weapon_choice = browser_input_list(chooser, "Choose your weapon.", "TAKE UP ARMS", weapons)
+	if(QDELETED(H) || !chooser)
+		return
 	if(!weapon_choice)
 		return
 
+	var/list/spawn_items = weapons[weapon_choice]
+	if(!islist(spawn_items))
+		spawn_items = list(spawn_items)
+	for(var/obj/item/spawn_item as anything in spawn_items)
+		give_or_drop(H, spawn_item)
+
 	switch(weapon_choice)
 		if("Pikeman")
-			give_or_drop(H, /obj/item/weapon/polearm/spear/billhook)
-			give_or_drop(H, /obj/item/weapon/sword/arming)
 			H.adjust_skillrank(/datum/skill/combat/polearms, 3, TRUE)
 			H.adjust_skillrank(/datum/skill/combat/swords, 2, TRUE)
 
 		if("Fencer")
-			give_or_drop(H, /obj/item/weapon/sword/rapier)
 			H.adjust_skillrank(/datum/skill/combat/swords, 3, TRUE)
 
 		if("Bow")
-			give_or_drop(H, /obj/item/gun/ballistic/revolver/grenadelauncher/bow/long)
-			give_or_drop(H, /obj/item/ammo_holder/quiver/arrows)
 			H.adjust_skillrank(/datum/skill/combat/bows, 3, TRUE)
 
 		if("Crossbow")
-			give_or_drop(H, /obj/item/gun/ballistic/revolver/grenadelauncher/crossbow)
-			give_or_drop(H, /obj/item/ammo_holder/quiver/bolts)
 			H.adjust_skillrank(/datum/skill/combat/crossbows, 3, TRUE)
 
 		if("Knife")
-			give_or_drop(H, /obj/item/weapon/knife/dagger/steel)
 			H.adjust_skillrank(/datum/skill/combat/knives, 1, TRUE)
 
 /datum/job/servant/proc/give_or_drop(mob/living/carbon/human/H, path)

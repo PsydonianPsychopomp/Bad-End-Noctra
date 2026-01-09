@@ -64,17 +64,24 @@
 	. = ..()
 
 	var/mob/living/carbon/human/H = spawned
-	var/client/chooser = player_client || H?.client
-	if(!H || QDELETED(H) || !chooser)
+	if(!H || QDELETED(H))
 		return
 
 	if(length(GLOB.keep_doors) > 0)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(know_keep_door_password), H), 5 SECONDS)
 
 	H.adjust_skillrank(/datum/skill/misc/music, pick(0, 0, 2, 3), TRUE)
+	SSticker.OnRoundstart(CALLBACK(src, PROC_REF(offer_weapon_choice), H, player_client))
+
+/datum/job/butler/proc/offer_weapon_choice(mob/living/carbon/human/H, client/player_client)
+	var/client/chooser = player_client || H?.client
+	if(!H || QDELETED(H) || !chooser)
+		return
 
 	var/list/weapons = list("Pikeman", "Fencer", "Longsword", "Sabre", "Knife")
-	var/weapon_choice = input(chooser, "Choose your weapon.", "TAKE UP ARMS") as null|anything in weapons
+	var/weapon_choice = browser_input_list(chooser, "Choose your weapon.", "TAKE UP ARMS", weapons)
+	if(QDELETED(H) || !chooser)
+		return
 	if(!weapon_choice)
 		return
 
