@@ -79,6 +79,9 @@
 		)
 		cast_on.gib()
 		return
+	var/oxy_loss = cast_on.getOxyLoss()
+	if(oxy_loss)
+		cast_on.adjustOxyLoss(-oxy_loss)
 	if(!cast_on.can_be_revived())
 		cast_on.visible_message(span_warning("Holy light engulfs [cast_on], but they remain limp..."))
 		return
