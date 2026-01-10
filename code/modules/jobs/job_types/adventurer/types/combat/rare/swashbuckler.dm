@@ -13,7 +13,6 @@
 	allowed_patrons = list(/datum/patron/divine/abyssor)
 	outfit = /datum/outfit/adventurer/swashbuckler
 	total_positions = 1
-	roll_chance = 30
 	category_tags = list(CTAG_ADVENTURER)
 
 	skills = list(
