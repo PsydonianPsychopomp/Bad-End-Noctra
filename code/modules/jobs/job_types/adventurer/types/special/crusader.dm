@@ -8,7 +8,6 @@
 	outfit = /datum/outfit/adventurer/crusader
 	category_tags = list(CTAG_ADVENTURER)
 	total_positions = 1
-	roll_chance = 30
 	is_recognized = TRUE
 
 	jobstats = list(
