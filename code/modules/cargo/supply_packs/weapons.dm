@@ -389,11 +389,11 @@
 	contains = /obj/item/ammo_holder/quiver/bolts
 
 /datum/supply_pack/weapons/ammo/bullets
-	name = "Pouch of Lead Bullets"
+	name = "Bullets"
 	cost = 60
-	contains = /obj/item/storage/belt/pouch/bullets
+	contains = /obj/item/ammo_holder/bullet/bullets
 
-/datum/supply_pack/weapons/ammo/bullets
+/datum/supply_pack/weapons/ammo/aflask
 	name = "Gunpowder Flask"
 	cost = 100
 	contains = /obj/item/reagent_containers/glass/bottle/aflask
