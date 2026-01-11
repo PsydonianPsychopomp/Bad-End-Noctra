@@ -269,10 +269,6 @@ GLOBAL_LIST_INIT(loadout_items, subtypesof(/datum/loadout_item))
 	name = "Cowbell"
 	item_path = /obj/item/catbell/cow
 
-/datum/loadout_item/bagpack
-	name = "Rucksack"
-	item_path = /obj/item/storage/backpack/backpack/bagpack
-
 /datum/loadout_item/ragmask
 	name = "Rag Mask"
 	item_path = /obj/item/clothing/face/shepherd/rag
