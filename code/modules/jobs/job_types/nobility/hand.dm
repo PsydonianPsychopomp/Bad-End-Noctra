@@ -28,7 +28,8 @@
 	)
 
 	traits = list(
-		TRAIT_KNOWKEEPPLANS
+		TRAIT_KNOWKEEPPLANS,
+		TRAIT_NOBLE
 	)
 
 /datum/outfit/hand

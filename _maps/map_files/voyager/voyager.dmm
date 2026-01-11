@@ -907,8 +907,12 @@
 /area/indoors/town/church/chapel)
 "iK" = (
 /obj/structure/closet/crate/drawer,
-/obj/item/scomstone,
-/obj/item/weapon/whip/antique,
+/obj/item/paper/inqslip/confession,
+/obj/item/paper/inqslip/confession,
+/obj/item/inqarticles/indexer,
+/obj/item/inqarticles/indexer,
+/obj/item/paper/inqslip/confession,
+/obj/item/inqarticles/indexer,
 /turf/open/floor/ruinedwood/spiral,
 /area/indoors/town/church/inquisition)
 "iL" = (
@@ -4500,6 +4504,10 @@
 	pixel_y = 12;
 	density = 0
 	},
+/obj/item/inqarticles/garrote,
+/obj/item/inqarticles/garrote,
+/obj/item/needle,
+/obj/item/needle,
 /turf/open/floor/ruinedwood/spiral,
 /area/indoors/town/church/inquisition)
 "PX" = (

@@ -718,14 +718,7 @@
 /area/under/town/basement)
 "aHR" = (
 /obj/structure/table/vtable,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
-/obj/item/paper,
+/obj/item/paper/inquisition_poultice_info,
 /turf/open/floor/tile/diamond/purple,
 /area/indoors/town/church/inquisition)
 "aIa" = (
@@ -889,6 +882,10 @@
 "aPX" = (
 /obj/structure/table/vtable/v2,
 /obj/item/natural/feather,
+/obj/item/inqarticles/tallowpot,
+/obj/item/reagent_containers/food/snacks/tallow/red,
+/obj/item/paper/inqslip/confession,
+/obj/item/inqarticles/indexer,
 /turf/open/floor/tile/diamond/purple,
 /area/indoors/town/church/inquisition)
 "aPY" = (
@@ -1437,10 +1434,6 @@
 "bmU" = (
 /turf/closed/wall/mineral/stone/window,
 /area/indoors/town/manorgate)
-"bnt" = (
-/mob/living/simple_animal/hostile/retaliate/shade,
-/turf/open/floor/naturalstone,
-/area/under/cavewet)
 "bnC" = (
 /turf/open/floor/church/purple,
 /area/indoors/town/church)
@@ -2928,17 +2921,6 @@
 	pixel_y = -7
 	},
 /obj/machinery/light/fueled/wallfire/candle/r,
-/obj/item/weapon/pick/steel{
-	pixel_x = 2;
-	pixel_y = 6
-	},
-/obj/item/weapon/pick/steel{
-	pixel_x = 2
-	},
-/obj/item/weapon/pick/steel{
-	pixel_x = -7;
-	pixel_y = 3
-	},
 /turf/open/floor/cobble,
 /area/indoors/town/church/inquisition)
 "cPE" = (
@@ -5917,9 +5899,12 @@
 /area/under/cavewet)
 "fKF" = (
 /obj/structure/closet/crate/chest/old_crate,
-/obj/item/natural/feather,
-/obj/item/natural/feather,
-/obj/item/natural/feather,
+/obj/item/paper/inqslip/confession,
+/obj/item/paper/inqslip/confession,
+/obj/item/paper/inqslip/confession,
+/obj/item/inqarticles/indexer,
+/obj/item/inqarticles/indexer,
+/obj/item/inqarticles/indexer,
 /turf/open/floor/cobble,
 /area/indoors/town/church/inquisition)
 "fKN" = (
@@ -8063,6 +8048,8 @@
 	pixel_x = -8;
 	pixel_y = 5
 	},
+/obj/item/inqarticles/tallowpot,
+/obj/item/reagent_containers/food/snacks/tallow/red,
 /turf/open/floor/cobblerock,
 /area/indoors/town/church/inquisition)
 "hyl" = (
@@ -13801,6 +13788,10 @@
 /obj/item/rope,
 /obj/item/rope,
 /obj/structure/rack/shelf/biggest,
+/obj/item/inqarticles/garrote,
+/obj/item/inqarticles/garrote,
+/obj/item/clothing/head/inqarticles/blackbag,
+/obj/item/clothing/head/inqarticles/blackbag,
 /turf/open/floor/cobble,
 /area/indoors/town/church/inquisition)
 "naQ" = (
@@ -18298,10 +18289,6 @@
 	},
 /turf/open/floor/volcanic,
 /area/under/cavelava)
-"qZZ" = (
-/mob/living/simple_animal/hostile/retaliate/shade,
-/turf/open/floor/naturalstone,
-/area/under/cave)
 "raf" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/ruinedwood/darker,
@@ -19759,34 +19746,12 @@
 /area/indoors/town/smithy)
 "svA" = (
 /obj/structure/rack/shelf/biggest,
-/obj/item/weapon/knife/dagger/silver,
-/obj/item/weapon/knife/dagger/silver{
-	pixel_x = 3;
-	pixel_y = -1
-	},
-/obj/item/weapon/knife/dagger/silver{
-	pixel_x = 1;
-	pixel_y = 4
-	},
-/obj/item/weapon/knife/dagger/silver{
-	pixel_x = 7;
-	pixel_y = -3
-	},
-/obj/item/weapon/sword/silver{
-	pixel_x = -3;
-	pixel_y = 7
-	},
-/obj/item/weapon/sword/silver{
-	pixel_x = 10;
-	pixel_y = 7
-	},
-/obj/item/weapon/sword/silver{
-	pixel_x = -5;
-	pixel_y = 8
-	},
-/obj/item/clothing/neck/talkstone{
-	pixel_x = 9
-	},
+/obj/item/speakerinq,
+/obj/item/speakerinq,
+/obj/item/listeningdevice,
+/obj/item/listeningdevice,
+/obj/item/listeningdevice,
+/obj/item/listeningdevice,
 /turf/open/floor/cobblerock,
 /area/indoors/town/church/inquisition)
 "svR" = (
@@ -22592,8 +22557,8 @@
 /area/indoors/town/church)
 "vkJ" = (
 /mob/living/simple_animal/hostile/retaliate/shade,
-/turf/open/water/cleanshallow,
-/area/under/cavewet)
+/turf/open/floor/cobblerock,
+/area/under/tomb/indoors/church)
 "vlv" = (
 /obj/structure/fluff/railing/wood{
 	dir = 4
@@ -25208,12 +25173,6 @@
 "xCs" = (
 /turf/closed/wall/mineral/wooddark/vertical,
 /area/indoors/town/clinic_large)
-"xCD" = (
-/mob/living/simple_animal/hostile/retaliate/shade,
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/effect/decal/cleanable/dirt/dust,
-/turf/open/floor/cobblerock,
-/area/under/tomb/indoors/church)
 "xCH" = (
 /obj/effect/decal/remains/human,
 /turf/open/water/swamp,
@@ -36319,7 +36278,7 @@ jLk
 jLk
 jLk
 bfB
-bnt
+bfB
 bfB
 awv
 jLk
@@ -36512,7 +36471,7 @@ jLk
 jLk
 bfB
 bfB
-bnt
+bfB
 jLk
 jLk
 jLk
@@ -39565,7 +39524,7 @@ jLk
 jLk
 jLk
 wxp
-bnt
+bfB
 bfB
 jLk
 nJJ
@@ -39732,7 +39691,7 @@ nJJ
 nJJ
 jLk
 bfB
-bnt
+bfB
 bfB
 jLk
 nJJ
@@ -40583,7 +40542,7 @@ nJJ
 jLk
 bfB
 jLk
-vkJ
+awv
 bfB
 bfB
 bfB
@@ -41195,7 +41154,7 @@ awv
 awv
 awv
 awv
-bnt
+bfB
 nJJ
 nJJ
 nJJ
@@ -41794,7 +41753,7 @@ bfB
 bfB
 awv
 awv
-vkJ
+awv
 awv
 awv
 awv
@@ -42001,7 +41960,7 @@ awv
 awv
 awv
 awv
-bnt
+bfB
 bfB
 jLk
 jLk
@@ -43543,7 +43502,7 @@ nJJ
 nJJ
 nJJ
 bfB
-bnt
+bfB
 bfB
 bfB
 bfB
@@ -44235,7 +44194,7 @@ bfB
 bfB
 jLk
 wxp
-bcU
+bfB
 jLk
 jLk
 jLk
@@ -44436,11 +44395,11 @@ jLk
 jLk
 bfB
 bfB
-bcU
-bcU
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
+bfB
+bfB
 jLk
 jLk
 jLk
@@ -44598,7 +44557,7 @@ xYg
 jLk
 jLk
 bfB
-bcU
+bfB
 nJJ
 nJJ
 nJJ
@@ -44637,14 +44596,14 @@ jLk
 jLk
 jLk
 jLk
-bcU
-bcU
-bcU
-bcU
-bcU
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
+bfB
+bfB
+bfB
+bfB
+bfB
 jLk
 jLk
 jLk
@@ -44800,8 +44759,8 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -44840,12 +44799,12 @@ jLk
 jLk
 jLk
 jLk
-bcU
-bcU
-bcU
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
+bfB
+bfB
+bfB
 jLk
 jLk
 bfB
@@ -45003,8 +44962,8 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -45043,8 +45002,8 @@ jLk
 jLk
 jLk
 jLk
-bcU
-bcU
+bfB
+bfB
 jLk
 jLk
 bfB
@@ -45206,8 +45165,8 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -45409,8 +45368,8 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -45612,8 +45571,8 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
-bcU
+bfB
+bfB
 bfB
 nJJ
 nJJ
@@ -45815,7 +45774,7 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
+bfB
 bfB
 bfB
 jLk
@@ -46794,7 +46753,7 @@ jLk
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 nJJ
 nJJ
@@ -48026,7 +47985,7 @@ nJJ
 neP
 neP
 neP
-qZZ
+neP
 neP
 nJJ
 nJJ
@@ -50074,8 +50033,8 @@ awv
 awv
 awv
 nJJ
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -50212,7 +50171,7 @@ nJJ
 nJJ
 jLk
 bfB
-bnt
+bfB
 bfB
 bfB
 nJJ
@@ -50277,8 +50236,8 @@ awv
 jLk
 nJJ
 jLk
-bcU
-bcU
+bfB
+bfB
 nJJ
 nJJ
 nJJ
@@ -50480,7 +50439,7 @@ nJJ
 nJJ
 nJJ
 nJJ
-bcU
+bfB
 nJJ
 nJJ
 bfB
@@ -50848,7 +50807,7 @@ awv
 awv
 bfB
 bfB
-bnt
+bfB
 bfB
 bfB
 awv
@@ -51051,7 +51010,7 @@ bfB
 bfB
 bfB
 bfB
-vkJ
+awv
 awv
 awv
 awv
@@ -52836,7 +52795,7 @@ bfB
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 nJJ
 nJJ
@@ -54090,7 +54049,7 @@ bfB
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 bfB
 awv
@@ -54172,7 +54131,7 @@ jLk
 jLk
 bfB
 bfB
-bcU
+bfB
 jLk
 nJJ
 nJJ
@@ -54282,7 +54241,7 @@ nJJ
 nJJ
 nJJ
 bfB
-bnt
+bfB
 bfB
 bfB
 nJJ
@@ -54373,8 +54332,8 @@ nJJ
 jLk
 jLk
 bfB
-bcU
-bcU
+bfB
+bfB
 jLk
 jLk
 jLk
@@ -54385,7 +54344,7 @@ awv
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 awv
 awv
@@ -54575,8 +54534,8 @@ nJJ
 jLk
 jLk
 bfB
-bcU
-bcU
+bfB
+bfB
 jLk
 jLk
 jLk
@@ -54776,9 +54735,9 @@ nJJ
 nJJ
 jLk
 jLk
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
 jLk
 jLk
 bfB
@@ -54977,9 +54936,9 @@ nJJ
 nJJ
 nJJ
 jLk
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
 jLk
 bfB
 bfB
@@ -55179,8 +55138,8 @@ nJJ
 nJJ
 nJJ
 jLk
-bcU
-bcU
+bfB
+bfB
 jLk
 jLk
 bfB
@@ -55382,7 +55341,7 @@ jLk
 jLk
 jLk
 bfB
-bcU
+bfB
 jLk
 bfB
 bfB
@@ -55820,7 +55779,7 @@ nJJ
 nJJ
 jLk
 bfB
-bnt
+bfB
 bfB
 bfB
 jLk
@@ -56804,7 +56763,7 @@ bqV
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 bfB
 bfB
@@ -57545,7 +57504,7 @@ bfB
 bfB
 bfB
 bfB
-bnt
+bfB
 bfB
 nJJ
 nJJ
@@ -58190,7 +58149,7 @@ jLk
 jLk
 bfB
 bfB
-bnt
+bfB
 bfB
 bfB
 bfB
@@ -58628,7 +58587,7 @@ jLk
 jLk
 jLk
 bfB
-bcU
+bfB
 jLk
 jLk
 jLk
@@ -58829,8 +58788,8 @@ jLk
 jLk
 jLk
 jLk
-bcU
-bcU
+bfB
+bfB
 jLk
 jLk
 jLk
@@ -59032,7 +58991,7 @@ jLk
 jLk
 jLk
 jLk
-bcU
+bfB
 jLk
 jLk
 jLk
@@ -59234,9 +59193,9 @@ nJJ
 nJJ
 nJJ
 jLk
-bcU
-bcU
-bcU
+bfB
+bfB
+bfB
 jLk
 jLk
 bfB
@@ -59437,7 +59396,7 @@ nJJ
 nJJ
 jLk
 jLk
-bcU
+bfB
 jLk
 jLk
 bfB
@@ -59639,7 +59598,7 @@ nJJ
 nJJ
 jLk
 jLk
-bcU
+bfB
 jLk
 bfB
 bfB
@@ -60629,7 +60588,7 @@ jLk
 jLk
 jLk
 jLk
-bnt
+bfB
 bfB
 jLk
 awv
@@ -61206,7 +61165,7 @@ nJJ
 jLk
 bfB
 bfB
-bnt
+bfB
 bfB
 bfB
 jLk
@@ -89182,7 +89141,7 @@ bgl
 xGp
 trK
 ivr
-xVa
+vkJ
 hbl
 ivr
 sTB
@@ -90597,7 +90556,7 @@ kuS
 vWt
 ivr
 lKS
-xCD
+kuS
 ivr
 sTB
 qbX
