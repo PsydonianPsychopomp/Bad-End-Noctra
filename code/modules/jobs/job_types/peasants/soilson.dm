@@ -18,7 +18,7 @@
 	allowed_races = RACES_PLAYER_ALL
 
 	outfit = /datum/outfit/farmer
-	give_bank_account = 20
+	give_bank_account = 30
 	cmode_music = 'sound/music/cmode/towner/CombatTowner.ogg'
 
 	job_bitflag = BITFLAG_CONSTRUCTOR

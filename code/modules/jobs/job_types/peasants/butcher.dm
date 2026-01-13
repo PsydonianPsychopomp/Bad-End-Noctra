@@ -16,6 +16,7 @@
 	outfit = /datum/outfit/beastmaster
 	give_bank_account = TRUE
 	cmode_music = 'sound/music/cmode/towner/CombatInn.ogg'
+	give_bank_account = 30
 
 	job_bitflag = BITFLAG_CONSTRUCTOR
 

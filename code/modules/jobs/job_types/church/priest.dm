@@ -18,6 +18,7 @@
 	blacklisted_species = list(SPEC_ID_HALFLING)
 	allowed_patrons = list(/datum/patron/divine/astrata)
 	allowed_sexes = list(MALE)
+	give_bank_account = 300
 
 	outfit = /datum/outfit/priest
 	spells = list(

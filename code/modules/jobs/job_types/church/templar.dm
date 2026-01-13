@@ -16,7 +16,7 @@
 
 
 	outfit = /datum/outfit/templar
-	give_bank_account = 0
+	give_bank_account = 40
 
 	job_bitflag = BITFLAG_CHURCH
 

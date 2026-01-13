@@ -19,6 +19,7 @@
 	outfit = /datum/outfit/undertaker
 	give_bank_account = TRUE
 	cmode_music = 'sound/music/cmode/church/CombatGravekeeper.ogg'
+	give_bank_account = 50
 
 	job_bitflag = BITFLAG_CHURCH
 

@@ -15,7 +15,7 @@
 	allowed_races = RACES_PLAYER_ALL
 
 	outfit = /datum/outfit/hunter
-	give_bank_account = 15
+	give_bank_account = 20
 	apprentice_name = "Hunter"
 	cmode_music = 'sound/music/cmode/towner/CombatTowner2.ogg'
 
