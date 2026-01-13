@@ -14,7 +14,7 @@
 
 	outfit = /datum/outfit/cook
 	display_order = JDO_COOK
-	give_bank_account = 8
+	give_bank_account = 40
 	cmode_music = 'sound/music/cmode/towner/CombatInn.ogg'
 
 	job_bitflag = BITFLAG_CONSTRUCTOR

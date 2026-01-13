@@ -15,6 +15,7 @@
 	outfit = /datum/outfit/bard
 	cmode_music = 'sound/music/cmode/adventurer/CombatIntense.ogg'
 	exp_types_granted = list(EXP_TYPE_BARD)
+	give_bank_account = 30
 
 	spells = list(
 		/datum/action/cooldown/spell/vicious_mockery,
