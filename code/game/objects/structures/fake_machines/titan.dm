@@ -146,7 +146,7 @@ GLOBAL_LIST_EMPTY(roundstart_court_agents)
 /// Check if the mob has the crown (Added Ring check functions as well)
 /obj/structure/fake_machine/titan/proc/has_crown(mob/living/carbon/human/checked_mob)
 	if(SSmapping.config.map_name == "Rivermist Hollow")
-		if(!checked_mob.ring || !istype(checked_mob.wear_ring, /obj/item/clothing/ring/active/nomag/master))
+		if(!checked_mob.wear_ring || !istype(checked_mob.wear_ring, /obj/item/clothing/ring/active/nomag/master))
 			say("I only answer to the Ring's rightful owner!")
 			playsound(src, 'sound/misc/machineno.ogg', 100, FALSE, -1)
 			return FALSE
