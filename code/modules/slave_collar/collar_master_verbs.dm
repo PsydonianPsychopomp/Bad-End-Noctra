@@ -42,7 +42,6 @@
 		"Force Surrender" = /mob/proc/collar_master_force_surrender,
 		"Force Strip" = /mob/proc/collar_master_force_strip,
 		"Forbid/permit Clothing" = /mob/proc/collar_master_clothing,
-		"Toggle Pet Speech" = /mob/proc/collar_master_toggle_speech,
 		"Force Love" = /mob/proc/collar_master_force_love,
 		"Force Say" = /mob/proc/collar_master_force_say,
 		"Force Emote" = /mob/proc/collar_master_force_emote,
