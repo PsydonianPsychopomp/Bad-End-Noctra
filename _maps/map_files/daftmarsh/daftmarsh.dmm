@@ -156,13 +156,6 @@
 /obj/structure/fluff/wallclock,
 /turf/open/floor/metal/barograte,
 /area/indoors/town/clocktower)
-"aht" = (
-/obj/effect/landmark/start/gravedigger,
-/obj/structure/fluff/walldeco/church/line{
-	dir = 4
-	},
-/turf/open/floor/church,
-/area/indoors/town/church)
 "aif" = (
 /obj/structure/closet/crate/chest/neu,
 /obj/item/weapon/knife/dagger,
@@ -291,28 +284,6 @@
 /obj/machinery/light/fueled/torchholder/c,
 /turf/open/floor/wood/nosmooth,
 /area/outdoors/town)
-"amP" = (
-/obj/structure/closet/crate/chest/wicker,
-/obj/item/reagent_containers/food/snacks/produce/grain/wheat,
-/obj/item/reagent_containers/food/snacks/produce/grain/wheat,
-/obj/item/reagent_containers/food/snacks/produce/grain/wheat,
-/obj/item/reagent_containers/food/snacks/produce/grain/wheat,
-/obj/item/reagent_containers/food/snacks/produce/grain/wheat,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/onion,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/onion,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/onion,
-/obj/item/reagent_containers/food/snacks/truffles,
-/obj/item/reagent_containers/food/snacks/truffles,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/potato,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/potato,
-/obj/structure/fake_machine/stockpile{
-	pixel_x = -32;
-	pixel_y = 0
-	},
-/obj/item/reagent_containers/food/snacks/produce/vegetable/cabbage,
-/obj/item/reagent_containers/food/snacks/produce/vegetable/cabbage,
-/turf/open/floor/blocks/stonered,
-/area/indoors/town/manor)
 "ani" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 1
@@ -3744,26 +3715,6 @@
 /obj/structure/table/wood/plain_alt,
 /turf/open/floor/greenstone,
 /area/indoors/town/magician)
-"diQ" = (
-/obj/structure/closet/crate/chest/crate,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/poultry,
-/obj/item/reagent_containers/food/snacks/spiderhoney,
-/obj/item/reagent_containers/food/snacks/butter,
-/obj/item/reagent_containers/food/snacks/fat,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/spiderhoney,
-/turf/open/floor/blocks/stonered,
-/area/indoors/town/manor)
 "dja" = (
 /obj/effect/landmark/start/orphan,
 /obj/structure/bed/wool,
@@ -5061,10 +5012,6 @@
 	dir = 4
 	},
 /area/indoors/town/tavern)
-"eow" = (
-/obj/structure/closet/crate/chest/neu,
-/turf/open/floor/blocks/bluestone,
-/area/indoors/town/warehouse)
 "eoA" = (
 /obj/effect/spawner/traveltile_spawner/vertical/inhumen,
 /turf/open/floor/cobblerock,
@@ -10205,26 +10152,6 @@
 /obj/structure/fluff/walldeco/church/line,
 /turf/open/floor/church,
 /area/indoors/town/church)
-"iQc" = (
-/obj/structure/closet/crate/chest/crate,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/egg,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/steak,
-/obj/item/reagent_containers/food/snacks/meat/poultry,
-/obj/item/reagent_containers/food/snacks/butter,
-/obj/item/reagent_containers/food/snacks/fat,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/cheese,
-/obj/item/reagent_containers/food/snacks/spiderhoney/honey,
-/obj/item/reagent_containers/food/snacks/spiderhoney/honey,
-/turf/open/floor/blocks/stonered,
-/area/indoors/town/manor)
 "iQz" = (
 /obj/structure/table/wood{
 	dir = 1;
@@ -14320,17 +14247,6 @@
 	},
 /turf/open/floor/ruinedwood/spiral,
 /area/indoors/town/smithy)
-"mnf" = (
-/obj/structure/table/wood{
-	icon_state = "longtable"
-	},
-/obj/structure/fluff/millstone{
-	pixel_y = 7
-	},
-/obj/machinery/light/fueled/wallfire/candle,
-/obj/machinery/light/fueled/wallfire/candle/l,
-/turf/open/floor/blocks/stonered,
-/area/indoors/town/manor)
 "mnp" = (
 /obj/structure/fluff/walldeco/church/line{
 	dir = 8
@@ -16903,13 +16819,6 @@
 "oEY" = (
 /turf/open/floor/greenstone,
 /area/under/town/sewer)
-"oFa" = (
-/obj/structure/table/wood/large_new{
-	icon_state = "alt_largetable";
-	dir = 6
-	},
-/turf/open/floor/blocks/stonered/tiny,
-/area/indoors/town/manor)
 "oFn" = (
 /obj/machinery/light/fueled/torchholder{
 	dir = 1
@@ -17408,12 +17317,6 @@
 	},
 /turf/open/floor/church,
 /area/indoors/town/church/chapel)
-"per" = (
-/obj/structure/chair/bench/church/smallbench{
-	dir = 4
-	},
-/turf/open/floor/grass,
-/area/outdoors/town)
 "pff" = (
 /obj/structure/bed/mediocre,
 /obj/item/bedsheet/pelt,
@@ -25897,14 +25800,6 @@
 	},
 /turf/open/floor/twig,
 /area/outdoors/town)
-"wSe" = (
-/obj/structure/table/wood{
-	dir = 1;
-	icon_state = "longtable"
-	},
-/obj/item/cooking/pan,
-/turf/open/floor/ruinedwood/spiral,
-/area/indoors/town/merc_guild)
 "wSg" = (
 /obj/structure/rack/shelf/biggest,
 /obj/item/clothing/armor/gambeson/heavy{
@@ -83117,7 +83012,7 @@ xyK
 gCo
 wtg
 gCo
-xyK
+uSD
 xyK
 xyK
 xyK
@@ -83463,10 +83358,10 @@ tzP
 tzP
 tzP
 cwk
-shU
-shU
-shU
-shU
+tzP
+tzP
+tzP
+tzP
 shU
 shU
 wCB
@@ -83522,10 +83417,10 @@ gCo
 wtg
 gCo
 xyK
-xyK
-xyK
-xyK
-xyK
+iyJ
+fQL
+hzj
+iyJ
 xyK
 xyK
 bJI
@@ -83662,16 +83557,16 @@ shU
 shU
 shU
 shU
-shU
-shU
+moY
+moY
 cwk
-shU
-shU
-shU
-shU
-shU
-shU
-ftQ
+tzP
+moY
+moY
+moY
+moY
+moY
+fjj
 wCB
 wCB
 lkM
@@ -83864,17 +83759,17 @@ shU
 shU
 shU
 shU
-shU
-tzP
-cwk
-tzP
-tzP
-tzP
-tzP
+moY
+moY
+moY
+moY
+moY
 tzP
 tzP
 tzP
 tzP
+moY
+moY
 wCB
 wCB
 wCB
@@ -84066,7 +83961,7 @@ shU
 shU
 shU
 shU
-shU
+moY
 tzP
 uQY
 edU
@@ -84077,14 +83972,6 @@ uQY
 uQY
 edU
 moY
-pBv
-pBv
-pBv
-pBv
-moY
-moY
-pBv
-tzP
 wCB
 mXZ
 cSX
@@ -84276,7 +84163,7 @@ shU
 shU
 shU
 shU
-shU
+moY
 tzP
 riv
 pBv
@@ -84478,8 +84365,6 @@ tzP
 tzP
 tzP
 tzP
-tzP
-tzP
 moY
 uQY
 tCo
@@ -84487,7 +84372,6 @@ pBv
 doJ
 uQY
 juF
-oCR
 oCR
 cui
 edU
@@ -84543,11 +84427,11 @@ bJI
 irh
 yds
 yds
-yds
-yds
-yds
-yds
-yds
+iyJ
+iyJ
+iyJ
+iyJ
+iyJ
 yds
 yds
 yds
@@ -84690,7 +84574,6 @@ moY
 kUl
 uQY
 cPr
-oCR
 oCR
 wAC
 mel
@@ -84894,11 +84777,9 @@ dUP
 uQY
 jEG
 oCR
-oCR
 lRA
 uQY
 moY
-tzP
 bMn
 bMn
 wCB
@@ -85298,11 +85179,11 @@ tzP
 uyI
 hQT
 uyI
-uyI
 fxm
+uyI
 uQY
 pBv
-tzP
+moY
 wCB
 dZo
 tNI
@@ -87341,7 +87222,7 @@ wCB
 wCB
 ftQ
 ftQ
-ftQ
+jSg
 jSg
 jSg
 jSg
@@ -97208,10 +97089,6 @@ mLJ
 suW
 ime
 qEV
-nfq
-nre
-nre
-nre
 nre
 klF
 ePk
@@ -117861,13 +117738,13 @@ snE
 ekw
 baK
 pin
-mlk
-wgz
-rjD
-uwM
-uwM
-iZW
-mlk
+eLs
+bWr
+wjL
+eje
+eje
+hGD
+eLs
 pin
 pin
 eUO
@@ -117881,9 +117758,9 @@ dhX
 dhX
 kfw
 uHh
-oQv
+dzZ
 oay
-oQv
+dzZ
 mlk
 pin
 pin
@@ -123739,8 +123616,8 @@ wtg
 esY
 wtg
 pin
-pin
-pin
+ayu
+iyJ
 mxn
 iyJ
 oHh
@@ -123941,10 +123818,10 @@ sQG
 wtg
 sQG
 pin
-pin
-pin
-mxn
-fQL
+ayu
+iyJ
+fyP
+hzj
 hzj
 gSx
 nlg
@@ -124143,15 +124020,15 @@ pin
 pin
 pin
 pin
-pin
-pin
+ayu
+iyJ
 iyJ
 sXC
 gSx
 gSx
-fQL
-fQL
-wSe
+qHs
+qHs
+qHs
 mxn
 pin
 pin
@@ -125343,7 +125220,7 @@ hkA
 qQQ
 uSD
 jLg
-per
+kpb
 bJI
 hVi
 qQQ
@@ -125951,7 +125828,7 @@ lFE
 ePk
 sUa
 ePk
-kpb
+jrb
 hSX
 hkA
 qKl
@@ -134452,8 +134329,8 @@ nZv
 pin
 pin
 pin
-dfH
-jeK
+uDj
+pin
 pin
 pin
 lCA
@@ -134654,8 +134531,8 @@ pin
 pin
 pin
 pin
-dfH
-jeK
+uDj
+pin
 pin
 lCA
 lCA
@@ -135457,7 +135334,6 @@ vCW
 vCW
 vCW
 nHd
-qWs
 uDU
 qpW
 nHd
@@ -159281,7 +159157,7 @@ wLw
 wLw
 nKP
 tap
-llk
+tap
 tap
 tap
 tap
@@ -162313,7 +162189,7 @@ mlX
 ftH
 mPu
 mPu
-jqv
+wGn
 xPi
 dql
 tap
@@ -164142,7 +164018,7 @@ tap
 tap
 tap
 tap
-tap
+oUv
 aSD
 ikb
 trY
@@ -164344,7 +164220,7 @@ tap
 tap
 tap
 tap
-tap
+oUv
 aSD
 fyP
 flv
@@ -164546,7 +164422,7 @@ tap
 tap
 tap
 tap
-tap
+oUv
 vNS
 qdJ
 aSD
