@@ -67,15 +67,20 @@ GLOBAL_LIST_EMPTY(townmaster_titles)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(know_keep_door_password), H), 7 SECONDS)
 
 /datum/outfit/townmaster/map_override(mob/living/carbon/human/H)
-	if(SSmapping.config.map_name != "Voyage")
-		return
-	head = /obj/item/clothing/head/helmet/leather/tricorn
-	cloak = /obj/item/clothing/cloak/half
-	l_hand = null
-	armor = /obj/item/clothing/armor/leather/jacket/silk_coat
-	shirt = /obj/item/clothing/shirt/undershirt/puritan
-	wrists = null
-	shoes = /obj/item/clothing/shoes/boots
+	if(SSmapping.config.map_name == "Voyage")
+
+		head = /obj/item/clothing/head/helmet/leather/tricorn
+		cloak = /obj/item/clothing/cloak/half
+		l_hand = null
+		armor = /obj/item/clothing/armor/leather/jacket/silk_coat
+		shirt = /obj/item/clothing/shirt/undershirt/puritan
+		wrists = null
+		shoes = /obj/item/clothing/shoes/boots
+
+	if(SSmapping.config.map_name == "Rivermist Hollow")
+
+		head = null
+		ring = /obj/item/clothing/ring/active/nomag/master
 
 /datum/outfit/townmaster/pre_equip(mob/living/carbon/human/H)
 	..()
