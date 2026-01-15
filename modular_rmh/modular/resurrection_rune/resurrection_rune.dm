@@ -51,6 +51,8 @@
 			var/mob/living/carbon/human/unlinked = H
 			if(!isnull(unlinked.client))
 				if(!unlinked.rune_linked)
+					if(get_dist(unlinked, sub_rune) > 2)
+						continue
 					var/turf/tur = get_turf(H)
 					if(unlinked.maxHealth - unlinked.health >= RUNE_DAMAGE_THRESHOLD || unlinked.is_dead() || istype(tur, /turf/open/lava) || istype(tur, /turf/open/lava/acid))
 						if(!(unlinked in resurrecting))

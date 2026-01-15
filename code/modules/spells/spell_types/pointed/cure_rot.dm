@@ -47,7 +47,7 @@
 
 /datum/action/cooldown/spell/cure_rot/cast(mob/living/carbon/human/cast_on)
 	. = ..()
-	var/was_zombie = cast_on.mind?.has_antag_datum(/datum/antagonist/zombie)
+	var/datum/antagonist/zombie/was_zombie = cast_on.mind?.has_antag_datum(/datum/antagonist/zombie)
 	var/has_rot = FALSE
 	if(!was_zombie)
 		for(var/obj/item/bodypart/bodypart as anything in cast_on.bodyparts)
@@ -59,10 +59,12 @@
 		return FALSE
 
 	if(was_zombie)
+		was_zombie.become_rotman = FALSE
 		cast_on.mind.remove_antag_datum(/datum/antagonist/zombie)
 		cast_on.death()
 
 	var/datum/component/rot/rot = cast_on.GetComponent(/datum/component/rot/corpse)
+	var/datum/component/rot/corpse/rot_corpse = istype(rot, /datum/component/rot/corpse) ? rot : null
 	if(rot)
 		rot.amount = 0
 		rot.last_process = world.time
@@ -73,6 +75,7 @@
 		if(rotty.can_be_disabled)
 			rotty.update_disabled()
 
+	rot_corpse?.restore_skin_tone()
 	cast_on.update_body()
 	cast_on.visible_message("<span class='notice'>The rot leaves [cast_on]'s body!</span>", "<span class='green'>I feel the rot leave my body!</span>")
 

@@ -50,6 +50,7 @@
 	var/datum/component/rot/rot = target.GetComponent(/datum/component/rot/corpse)
 	if(!rot)
 		rot = target.GetComponent(/datum/component/rot/simple)
+	var/datum/component/rot/corpse/rot_corpse = istype(rot, /datum/component/rot/corpse) ? rot : null
 	if(rot)
 		rot.amount = 0
 		rot.last_process = world.time
@@ -61,6 +62,7 @@
 			rotty.update_limb()
 			if(rotty.can_be_disabled)
 				rotty.update_disabled()
+		rot_corpse?.restore_skin_tone()
 	target.update_body()
 	display_results(user, target, span_notice("You burn away the rot inside of [target]."),
 		"[user] burns the rot within [target].",

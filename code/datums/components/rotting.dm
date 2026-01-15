@@ -29,10 +29,23 @@
 	amount += amt2add
 	return
 
+/datum/component/rot/corpse
+	var/original_skin_tone
+
 /datum/component/rot/corpse/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
 	. = ..()
+
+/datum/component/rot/corpse/proc/restore_skin_tone()
+	if(!original_skin_tone)
+		return
+	if(!ishuman(parent))
+		original_skin_tone = null
+		return
+	var/mob/living/carbon/human/H = parent
+	H.skin_tone = original_skin_tone
+	original_skin_tone = null
 
 /datum/component/rot/corpse/process()
 	var/time_elapsed = last_process ? (world.time - last_process)/10 : 1
@@ -98,7 +111,9 @@
 		if(findonerotten)
 			if(ishuman(C))
 				var/mob/living/carbon/human/H = C
-				H.skin_tone = "878f79" //elf ears
+				if(!original_skin_tone)
+					original_skin_tone = H.skin_tone
+				H.skin_tone = SKIN_COLOR_ROT //elf ears
 			if(soundloop && soundloop.stopped && !is_zombie)
 				soundloop.start()
 		C.update_body()
