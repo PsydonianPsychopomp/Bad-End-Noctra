@@ -12,12 +12,11 @@
 	bypass_lastclass = TRUE
 
 	allowed_races = RACES_TEMPLAR
-
+	allowed_patrons = ALL_TEMPLAR_PATRONS
 
 
 	outfit = /datum/outfit/templar
 	give_bank_account = 40
-
 	job_bitflag = BITFLAG_CHURCH
 
 	exp_type = list(EXP_TYPE_CHURCH, EXP_TYPE_COMBAT)

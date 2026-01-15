@@ -9,7 +9,6 @@
 	total_positions = 4
 
 	exp_types_granted = list(EXP_TYPE_ADVENTURER, EXP_TYPE_COMBAT, EXP_TYPE_CLERIC)
-
 	jobstats = list(
 		STATKEY_STR = 1,
 		STATKEY_INT = 1,
