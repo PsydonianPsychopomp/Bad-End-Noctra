@@ -14967,9 +14967,13 @@
 "hkN" = (
 /obj/structure/door/stone{
 	lockid = "church";
-	name = s
+	name = Rune Roomsss
 	},
 /obj/effect/mapping_helpers/access/keyset/church/priest,
+/obj/structure/door/stone{
+	lockid = "church";
+	name = "Rune Room"
+	},
 /turf/open/floor/concrete,
 /area/indoors/town/rmh/chapel/basement)
 "hkV" = (
